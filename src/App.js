@@ -27,6 +27,7 @@ import PrivateRoute from "utils/privateRoute";
 import PublicRoute from "utils/publicRoute";
 import PhotoSettings from "pages/PhotoSettings";
 import BucketSettings from "pages/BucketSettings";
+import FolderSetting from "pages/FolderSettings";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
         <Route path="/sign-up" exact component={SignUp} />
         <Route path="/sign-in" exact component={SignIn} />
         <Main>
-          <Route exact path="/dashboard" component={Home} />
+          <Route exact path="/" component={Home} />
           <PrivateRoute exact path="/tables" component={Tables} />
           <PrivateRoute exact path="/billing" component={Billing} />
           <PrivateRoute exact path="/rtl" component={Rtl} />
@@ -45,6 +46,7 @@ function App() {
           <PrivateRoute exact path="/photo" component={Photo} />
           <PrivateRoute exact path="/photo-settings" component={PhotoSettings} />
           <PrivateRoute exact path="/bucket-management" component={BucketSettings} />
+          <PrivateRoute exact path="/folder-management" component={FolderSetting} />
         </Main>
       </Switch>
     </div>

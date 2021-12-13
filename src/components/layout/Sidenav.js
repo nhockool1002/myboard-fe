@@ -15,6 +15,7 @@ import { Menu, Button } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "assets/images/logo.png";
 import photoIcon from "assets/images/photos.png";
+import photoSettingsIcon from "assets/images/photo-settings.png";
 import { getUser, removeUserSession } from "utils/common";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -40,6 +41,10 @@ function Sidenav({ color }) {
 
   const photo = [
     <img src={photoIcon} style={{ width: "20px", height: "20px" }} />,
+  ];
+
+  const photoSettings = [
+    <img src={photoSettingsIcon} style={{ width: "20px", height: "20px" }} />,
   ];
   const dashboard = [
     <svg
@@ -186,7 +191,7 @@ function Sidenav({ color }) {
     <>
       <div className="brand">
         <img src={logo} alt="" />
-        <span>Muse Dashboard</span>
+        <span style={{ color: "red" }}>MyBoard PROJECT</span>
       </div>
       <hr />
       <Menu theme="light" mode="inline">
@@ -221,7 +226,7 @@ function Sidenav({ color }) {
                   : "",
               }}
             >
-              {photo}
+              {photoSettings}
             </span>
             <span className="label">Photo Settings</span>
           </NavLink>
