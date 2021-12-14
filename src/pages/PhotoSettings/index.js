@@ -1,25 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Card, Col, Row, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { SELF_URL } from "helpers/url";
+import { getUser, getToken } from "utils/common";
+import { S3_API, SELF_URL } from "helpers/url";
+import { ShowSweetAlert } from "utils/common";
+import Loader from "react-loader-spinner";
+import axios from "axios";
 
 import PhotoBucket from "assets/images/ice-bucket.png";
 import FolderSetting from "assets/images/folders.png";
 
+import { isEmpty } from "lodash";
+
 const PhotoSettings = (props) => {
   const { Title } = Typography;
   const history = useHistory();
+  const [alert, setAlert] = useState(null);
+  const [loading, setIsLoading] = useState(false);
+  const user = getUser();
+
+  const handleClickAlert = () => {
+    setAlert(null);
+    setIsLoading(false);
+  };
+
+
+  const handleTransitionBucket = () => {
+    setAlert(null);
+    history.push(SELF_URL.BUCKET_MANAGEMENT);
+  };
+
   const handleRedirect = (page) => {
     switch (page) {
       case 1:
         history.push(SELF_URL.BUCKET_MANAGEMENT);
         break;
       case 2:
-        history.push(SELF_URL.FOLDER_MANAGEMENT);
+        setIsLoading(true);
+        if (user !== null) {
+          axios
+            .get(S3_API.GET_ALL_S3_BUCKET, {
+              headers: { Authorization: "Token " + getToken() },
+            })
+            .then((res) => {
+              setIsLoading(false);
+              if (isEmpty(res.data.data)) {
+                console.log(213)
+                setAlert(
+                  <ShowSweetAlert
+                    type="danger"
+                    title="Error"
+                    message="FIRST CREATE BUCKET"
+                    onClick={handleTransitionBucket}
+                  ></ShowSweetAlert>
+                );
+              } else history.push(SELF_URL.FOLDER_MANAGEMENT);
+            })
+            .catch((error) =>
+              setAlert(
+                <ShowSweetAlert
+                  type="error"
+                  title="Error"
+                  message={error.response}
+                  onClick={handleClickAlert}
+                ></ShowSweetAlert>
+              )
+            );
+        } else history.push(SELF_URL.LOGIN);
         break;
-      
+
       default:
         history.push(SELF_URL.DASHBOARD);
         break;
@@ -27,6 +78,18 @@ const PhotoSettings = (props) => {
   };
   return (
     <div className="layout-content">
+      {alert}
+      {loading && (
+        <div className="loaderWrapper">
+          <Loader
+            visible={loading}
+            type="Puff"
+            color="#00BFFF"
+            height={100}
+            width="100%"
+          />
+        </div>
+      )}
       <Row className="rowgap-vbox" gutter={[24, 0]}>
         <Col
           key={uuidv4()}
