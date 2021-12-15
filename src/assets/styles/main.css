@@ -3092,3 +3092,28 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   font-weight: bold;
   color: rgb(84, 124, 25);
 }
+/* tile uploaded pictures */
+.upload-list-inline .ant-upload-list-item {
+  float: left;
+  width: 200px;
+  margin-right: 8px;
+}
+
+.upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
+  float: right;
+}
+
+.ant-progress-outer {
+  width: 80% !important;
+}
+
+.applyFindImage {
+  height: 60px;
+}
+.listImageStyle {
+  margin-top: 25px;
+}
+.listImageStyle img {
+  margin-bottom: 10px;
+  height: 80%;
+}

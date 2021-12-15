@@ -29,6 +29,7 @@ import PhotoSettings from "pages/PhotoSettings";
 import BucketSettings from "pages/BucketSettings";
 import FolderSetting from "pages/FolderSettings";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import UploadPictures from 'pages/UploadPictures';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <PrivateRoute exact path="/photo-settings" component={PhotoSettings} />
           <PrivateRoute exact path="/bucket-management" component={BucketSettings} />
           <PrivateRoute exact path="/folder-management" component={FolderSetting} />
+          <PrivateRoute exact path="/upload-pictures" component={UploadPictures} />
         </Main>
       </Switch>
     </div>

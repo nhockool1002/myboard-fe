@@ -44,10 +44,15 @@ const { Title } = Typography;
 
 const formProps = {
   name: "file",
-  action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+  action: "https://127.0.0.1:8000/api/s3-upload-multiple/",
   headers: {
-    authorization: "authorization-text",
+    Authorization: "Token bd3f6cc6247ef2290935a286729c2b93b08b5864",
   },
+  data: {
+    alo: "123"
+  },
+  listType: "picture",
+  multiple: true,
   onChange(info) {
     if (info.file.status !== "uploading") {
       console.log(info.file, info.fileList);
@@ -57,6 +62,14 @@ const formProps = {
     } else if (info.file.status === "error") {
       message.error(`${info.file.name} file upload failed.`);
     }
+  },
+  progress: {
+    strokeColor: {
+      '0%': '#108ee9',
+      '100%': '#87d068',
+    },
+    strokeWidth: 3,
+    format: percent => `${parseFloat(percent.toFixed(2))}%`,
   },
 };
 // table code start

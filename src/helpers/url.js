@@ -9,11 +9,14 @@ export const S3_API = {
   S3_CREATE_BUCKET: API_URL + "/api/s3-bucket/",
   GET_FOLDER_BY_BUCKET_ID: API_URL + "/api/get-folder-by-bucket-id/",
   CREATE_FOLDER: API_URL + "/api/s3-folder/",
+  UPLOAD_IMAGES: API_URL + "/api/s3-upload-multiple/",
+  GET_IMAGE_BY_FOLDER: API_URL + "/api/s3-object-by-folder/",
 }
 
 export const SELF_URL = {
   LOGIN: "/sign-in",
   DASHBOARD: "/dashboard",
   BUCKET_MANAGEMENT: "/bucket-management",
-  FOLDER_MANAGEMENT: "/folder-management"
+  FOLDER_MANAGEMENT: "/folder-management",
+  UPLOAD_PICTURE: "/upload-pictures",
 }
