@@ -12,6 +12,7 @@ import {
   Upload,
   message,
   Typography,
+  Pagination,
 } from "antd";
 import { ToTopOutlined, UploadOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
@@ -19,11 +20,13 @@ import { getUser, getToken } from "utils/common";
 import { S3_API, SELF_URL } from "helpers/url";
 import { useHistory } from "react-router-dom";
 import Loader from "react-loader-spinner";
+import SweetAlert from "react-bootstrap-sweetalert";
 import axios from "axios";
 import { ShowSweetAlert } from "utils/common";
+import { SRLWrapper } from "simple-react-lightbox";
+
 import S3CreateBucket from "assets/images/world.png";
-import FolderSettingIcon from "assets/images/folders.png";
-import { set } from "lodash";
+import DeleteIcon from "assets/images/delete.png";
 
 const UploadPictures = (props) => {
   const { Title, Paragraph, Text, Link } = Typography;
@@ -31,7 +34,7 @@ const UploadPictures = (props) => {
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
   const [update, setUpdate] = useState(0);
   const [selectDefaultValue, setSelectDefaultValue] = useState("");
   const [dataSelect, setDataSelect] = useState([]);
@@ -46,9 +49,14 @@ const UploadPictures = (props) => {
   const [listFolderOfBucket, setListFolderOfBucket] = useState([]);
   const [listImage, setListImage] = useState([]);
   const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [pagination, setPagination] = useState(false);
+  const [rowPerPage, setRowPerPage] = useState(0);
+  const [selectedFolder, setSelectedFolder] = useState();
 
   useEffect(() => {
     const user = getUser();
+    setCurrentUser(user);
     if (user !== null) {
       setCurrentUser(user);
       axios
@@ -72,14 +80,14 @@ const UploadPictures = (props) => {
     } else history.push(SELF_URL.LOGIN);
   }, []);
 
-  const handleFindImage = () => {
+  const handleFindImage = (currentPage) => {
     setIsLoading(true);
     const user = getUser();
     if (user !== null) {
       axios
         .get(
           S3_API.GET_IMAGE_BY_FOLDER +
-            `?bucket_name=${currentBucketName}&folder_key=${currentFolder}&page=${page}`,
+            `?bucket_name=${currentBucketName}&folder_key=${currentFolder}&page=${currentPage}`,
           {
             headers: { Authorization: "Token " + getToken() },
           }
@@ -87,6 +95,9 @@ const UploadPictures = (props) => {
         .then((res) => {
           setIsLoading(false);
           setListImage(res.data.data);
+          setTotal(res.data.total);
+          setPagination(true);
+          setRowPerPage(res.data.row_per_page);
         })
         .catch((error) =>
           setAlert(
@@ -106,11 +117,60 @@ const UploadPictures = (props) => {
     setIsLoading(false);
   };
 
+  const handleConfirmDelete = (id) => {
+    setAlert(
+      <SweetAlert
+        warning
+        showCancel
+        confirmBtnText="Yes, delete it!"
+        confirmBtnBsStyle="danger"
+        title="Are you sure?"
+        onConfirm={() => comfirmedDeleteFile(id)}
+        onCancel={() => setAlert(null)}
+        focusCancelBtn
+      >
+        You will not be able to recover this imaginary file!
+      </SweetAlert>
+    );
+  };
+
+  const comfirmedDeleteFile = (id) => {
+    setAlert(null);
+    setIsLoading(true);
+    if (currentUser !== null) {
+      axios
+        .delete(S3_API.DELETE_FILE_BY_ID + `?file_id=${id}`, {
+          headers: { Authorization: "Token " + getToken() },
+        })
+        .then((res) => {
+          setIsLoading(false);
+          handleFindImage(page);
+        })
+        .catch((error) =>
+          setAlert(
+            <ShowSweetAlert
+              type="danger"
+              title="Error"
+              message={error.response.data.message}
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          )
+        );
+    } else history.push(SELF_URL.LOGIN);
+  };
+
+  const handleChangePage = (page_num) => {
+    setPage(page_num);
+    handleFindImage(page_num);
+  };
+
   function handleChangeFolder(value) {
     setDisableApplyButton(false);
+    setSelectedFolder(value);
     setCurrentFolder(value);
   }
   function handleChange(value) {
+    setSelectedFolder(null);
     const user = getUser();
     if (user !== null) {
       setCurrentUser(user);
@@ -119,6 +179,7 @@ const UploadPictures = (props) => {
           headers: { Authorization: "Token " + getToken() },
         })
         .then((res) => {
+          setDisableApplyButton(true);
           setDisableFolder(false);
           setListFolderOfBucket(res.data.data);
         })
@@ -146,11 +207,11 @@ const UploadPictures = (props) => {
     name: "files",
     action: S3_API.UPLOAD_IMAGES,
     headers: {
-      Authorization: "Token bd3f6cc6247ef2290935a286729c2b93b08b5864",
+      Authorization: "Token " + getToken(),
     },
     data: {
-      bucket_name: "nhutnew2",
-      folder_key: "s3",
+      bucket_name: currentBucketName,
+      folder_key: currentFolder,
     },
     listType: "picture",
     multiple: true,
@@ -160,7 +221,7 @@ const UploadPictures = (props) => {
       }
       if (info.file.status === "done") {
         message.success(`${info.file.name} file uploaded successfully`);
-        handleFindImage();
+        handleFindImage(page);
       } else if (info.file.status === "error") {
         message.error(`${info.file.name} file upload failed.`);
       }
@@ -212,6 +273,7 @@ const UploadPictures = (props) => {
                   style={{ width: "90%" }}
                   disabled={disableFolder}
                   onChange={handleChangeFolder}
+                  value={selectedFolder}
                 >
                   {listFolderOfBucket &&
                     listFolderOfBucket.map((item) => (
@@ -225,7 +287,10 @@ const UploadPictures = (props) => {
                 <Button
                   type="danger"
                   className="ant-btn-sm ant-btn-block applyFindImage"
-                  onClick={handleFindImage}
+                  onClick={() => {
+                    setPage(1)
+                    handleFindImage(1)
+                  }}
                   disabled={disableApplyButton ? true : false}
                 >
                   Apply
@@ -234,18 +299,52 @@ const UploadPictures = (props) => {
             </Row>
             <Row className="listImageStyle">
               {listImage &&
-                listImage.map((item) => 
-                <Col span={6}>
-                  <img src={item} style={{ width: "150px" }} />
-                </Col>
-              )}
+                listImage.map((item) => (
+                  <Col span={6} style={{ padding: 10 }}>
+                    <div className="imageWrapper">
+                      <div
+                        className="deleteButton"
+                        onClick={(e) => handleConfirmDelete(item.id)}
+                      >
+                        <img src={DeleteIcon} srl_gallery_image="true" />
+                      </div>
+                      <SRLWrapper>
+                        <a href={item.url}>
+                          <img
+                            src={item.url}
+                            style={{ width: "100%" }}
+                            className="imageItem"
+                          />
+                        </a>
+                      </SRLWrapper>
+                    </div>
+                  </Col>
+                ))}
+            </Row>
+            <Row>
+              <Col span={24}>
+                {pagination && (
+                  <Pagination
+                    defaultCurrent={1}
+                    current={page}
+                    defaultPageSize={rowPerPage ? rowPerPage : 12}
+                    total={total ? total : 10}
+                    onChange={(value) => handleChangePage(value)}
+                    showTotal={(total, range) => `${range[0]}-${range[1]} of ${total ? total : 10} items`}
+                    hideOnSinglePage={true}
+                    responsive={true}
+                  />
+                )}
+              </Col>
             </Row>
           </Card>
         </Col>
         <Col xs={24} sm={24} md={12} lg={12} xl={12} className="mb-24">
           <Card bordered={false} className="criclebox h-auto">
             <Upload {...formProps} className="upload-list-inline">
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              <Button icon={<UploadOutlined />} disabled={disableApplyButton}>
+                Click to Upload
+              </Button>
             </Upload>
           </Card>
         </Col>

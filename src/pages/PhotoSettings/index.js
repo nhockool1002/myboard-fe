@@ -48,7 +48,6 @@ const PhotoSettings = (props) => {
             .then((res) => {
               setIsLoading(false);
               if (isEmpty(res.data.data)) {
-                console.log(213)
                 setAlert(
                   <ShowSweetAlert
                     type="danger"
@@ -72,7 +71,36 @@ const PhotoSettings = (props) => {
         } else history.push(SELF_URL.LOGIN);
         break;
       case 3:
-        history.push(SELF_URL.UPLOAD_PICTURE);
+        setIsLoading(true);
+        if (user !== null) {
+          axios
+            .get(S3_API.GET_ALL_S3_BUCKET, {
+              headers: { Authorization: "Token " + getToken() },
+            })
+            .then((res) => {
+              setIsLoading(false);
+              if (isEmpty(res.data.data)) {
+                setAlert(
+                  <ShowSweetAlert
+                    type="danger"
+                    title="Error"
+                    message="FIRST CREATE BUCKET"
+                    onClick={handleTransitionBucket}
+                  ></ShowSweetAlert>
+                );
+              } else history.push(SELF_URL.UPLOAD_PICTURE);
+            })
+            .catch((error) =>
+              setAlert(
+                <ShowSweetAlert
+                  type="error"
+                  title="Error"
+                  message={error.response}
+                  onClick={handleClickAlert}
+                ></ShowSweetAlert>
+              )
+            );
+        } else history.push(SELF_URL.LOGIN);
         break;
       default:
         history.push(SELF_URL.DASHBOARD);
@@ -114,7 +142,7 @@ const PhotoSettings = (props) => {
                   <Title level={4}>
                     <small className="bnb2">
                       Management Bucket on S3 Server
-                    </small>{" "}
+                    </small>{" "} <br />
                     Bucket Settings
                   </Title>
                 </Col>
@@ -148,7 +176,7 @@ const PhotoSettings = (props) => {
                   <Title level={4}>
                     <small className="bnb2">
                       Management Folders in Buckets
-                    </small>{" "}
+                    </small>{" "} <br />
                     Folders Settings
                   </Title>
                 </Col>
@@ -182,7 +210,7 @@ const PhotoSettings = (props) => {
                   <Title level={4}>
                     <small className="bnb2">
                       Management Picture in Folders
-                    </small>{" "}
+                    </small>{" "} <br />
                     Upload Pictures
                   </Title>
                 </Col>

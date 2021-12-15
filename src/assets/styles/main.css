@@ -3113,7 +3113,30 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
 .listImageStyle {
   margin-top: 25px;
 }
-.listImageStyle img {
+.imageItem {
   margin-bottom: 10px;
-  height: 80%;
+  height: 150px;
+}
+.imageWrapper {
+  position: relative;
+}
+.deleteButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.deleteButton img {
+  width: 40px;
+}
+.deleteButton img:hover {
+  cursor: pointer;
+}
+.btn-danger {
+  background-color: red;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+.btn-danger:hover {
+  color: white;
 }
