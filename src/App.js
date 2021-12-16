@@ -9,7 +9,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Tables from "./pages/Tables";
 import Billing from "./pages/Billing";
@@ -24,12 +24,12 @@ import "./assets/styles/responsive.css";
 import Photo from "pages/Photo";
 
 import PrivateRoute from "utils/privateRoute";
-import PublicRoute from "utils/publicRoute";
+// import PublicRoute from "utils/publicRoute";
 import PhotoSettings from "pages/PhotoSettings";
 import BucketSettings from "pages/BucketSettings";
 import FolderSetting from "pages/FolderSettings";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import UploadPictures from 'pages/UploadPictures';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 function App() {
   return (

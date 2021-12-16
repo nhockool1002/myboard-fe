@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import {
   Card,
   Col,
   Row,
-  Table,
   Button,
-  Form,
-  Input,
   Select,
   Upload,
   message,
   Typography,
   Pagination,
 } from "antd";
-import { ToTopOutlined, UploadOutlined } from "@ant-design/icons";
-import { v4 as uuidv4 } from "uuid";
+import { UploadOutlined } from "@ant-design/icons";
 import { getUser, getToken } from "utils/common";
 import { S3_API, SELF_URL } from "helpers/url";
 import { useHistory } from "react-router-dom";
@@ -25,20 +20,14 @@ import axios from "axios";
 import { ShowSweetAlert } from "utils/common";
 import { SRLWrapper } from "simple-react-lightbox";
 
-import S3CreateBucket from "assets/images/world.png";
 import DeleteIcon from "assets/images/delete.png";
 
 const UploadPictures = (props) => {
-  const { Title, Paragraph, Text, Link } = Typography;
+  const { Text } = Typography;
   const history = useHistory();
-  const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [update, setUpdate] = useState(0);
-  const [selectDefaultValue, setSelectDefaultValue] = useState("");
-  const [dataSelect, setDataSelect] = useState([]);
-  const [currentBucket, setCurrentBucket] = useState(0);
   const [currentBucketName, setCurrentBucketName] = useState("");
   const [currentFolder, setCurrentFolder] = useState(0);
   const [listAllBucket, setListAllBucket] = useState([]);
@@ -77,7 +66,7 @@ const UploadPictures = (props) => {
             ></ShowSweetAlert>
           )
         );
-    } else history.push(SELF_URL.LOGIN);
+    } else window.location.href = SELF_URL.LOGIN;
   }, []);
 
   const handleFindImage = (currentPage) => {
@@ -156,7 +145,7 @@ const UploadPictures = (props) => {
             ></ShowSweetAlert>
           )
         );
-    } else history.push(SELF_URL.LOGIN);
+    } else window.location.href = SELF_URL.LOGIN;
   };
 
   const handleChangePage = (page_num) => {
@@ -196,11 +185,10 @@ const UploadPictures = (props) => {
     } else history.push(SELF_URL.LOGIN);
     if (listAllBucket) {
       const currentBucketFind = listAllBucket.find((item) => {
-        return item.id == value;
+        return item.id === value;
       });
       setCurrentBucketName(currentBucketFind.bucket_name);
     }
-    setCurrentBucket(value);
   }
 
   const formProps = {
@@ -288,8 +276,8 @@ const UploadPictures = (props) => {
                   type="danger"
                   className="ant-btn-sm ant-btn-block applyFindImage"
                   onClick={() => {
-                    setPage(1)
-                    handleFindImage(1)
+                    setPage(1);
+                    handleFindImage(1);
                   }}
                   disabled={disableApplyButton ? true : false}
                 >
@@ -306,7 +294,11 @@ const UploadPictures = (props) => {
                         className="deleteButton"
                         onClick={(e) => handleConfirmDelete(item.id)}
                       >
-                        <img src={DeleteIcon} srl_gallery_image="true" />
+                        <img
+                          src={DeleteIcon}
+                          srl_gallery_image="true"
+                          alt="delete thumb button"
+                        />
                       </div>
                       <SRLWrapper>
                         <a href={item.url}>
@@ -314,6 +306,7 @@ const UploadPictures = (props) => {
                             src={item.url}
                             style={{ width: "100%" }}
                             className="imageItem"
+                            alt="item data thumb"
                           />
                         </a>
                       </SRLWrapper>
@@ -330,7 +323,9 @@ const UploadPictures = (props) => {
                     defaultPageSize={rowPerPage ? rowPerPage : 12}
                     total={total ? total : 10}
                     onChange={(value) => handleChangePage(value)}
-                    showTotal={(total, range) => `${range[0]}-${range[1]} of ${total ? total : 10} items`}
+                    showTotal={(total, range) =>
+                      `${range[0]}-${range[1]} of ${total ? total : 10} items`
+                    }
                     hideOnSinglePage={true}
                     responsive={true}
                   />
@@ -352,7 +347,5 @@ const UploadPictures = (props) => {
     </div>
   );
 };
-
-UploadPictures.propTypes = {};
 
 export default UploadPictures;

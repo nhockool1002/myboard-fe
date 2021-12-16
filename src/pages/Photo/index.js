@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, Col, Row, Typography } from "antd";
 import ExamplePhoto from "assets/images/example.png";
-import PropTypes from "prop-types";
 
 const Photo = (props) => {
   const { Title } = Typography;
@@ -16,6 +15,7 @@ const Photo = (props) => {
                   <img
                     src={ExamplePhoto}
                     style={{ width: "100%", height: "auto" }}
+                    alt="this is thumb"
                   />
                   <Title level={3}>6666</Title>
                   <div className="bnb2">2222</div>
@@ -28,7 +28,5 @@ const Photo = (props) => {
     </div>
   );
 };
-
-Photo.propTypes = {};
 
 export default Photo;

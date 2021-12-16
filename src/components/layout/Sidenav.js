@@ -40,11 +40,19 @@ function Sidenav({ color }) {
   };
 
   const photo = [
-    <img src={photoIcon} style={{ width: "20px", height: "20px" }} />,
+    <img
+      src={photoIcon}
+      style={{ width: "20px", height: "20px" }}
+      alt="This is thumb icon"
+    />,
   ];
 
   const photoSettings = [
-    <img src={photoSettingsIcon} style={{ width: "20px", height: "20px" }} />,
+    <img
+      src={photoSettingsIcon}
+      style={{ width: "20px", height: "20px" }}
+      alt="This is thumb icon   "
+    />,
   ];
   const dashboard = [
     <svg
@@ -52,7 +60,7 @@ function Sidenav({ color }) {
       height="20"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key={uuidv4()}
     >
       <path
         d="M3 4C3 3.44772 3.44772 3 4 3H16C16.5523 3 17 3.44772 17 4V6C17 6.55228 16.5523 7 16 7H4C3.44772 7 3 6.55228 3 6V4Z"
@@ -76,7 +84,7 @@ function Sidenav({ color }) {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key={uuidv4()}
     >
       <path
         d="M9 2C8.44772 2 8 2.44772 8 3C8 3.55228 8.44772 4 9 4H11C11.5523 4 12 3.55228 12 3C12 2.44772 11.5523 2 11 2H9Z"
@@ -98,7 +106,7 @@ function Sidenav({ color }) {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key={uuidv4()}
     >
       <path
         d="M4 4C2.89543 4 2 4.89543 2 6V7H18V6C18 4.89543 17.1046 4 16 4H4Z"
@@ -120,7 +128,7 @@ function Sidenav({ color }) {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key={uuidv4()}
     >
       <path
         fillRule="evenodd"
@@ -138,7 +146,7 @@ function Sidenav({ color }) {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key={uuidv4()}
     >
       <path
         fillRule="evenodd"
@@ -156,7 +164,7 @@ function Sidenav({ color }) {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      key={0}
+      key={uuidv4()}
     >
       <path
         fillRule="evenodd"
@@ -173,7 +181,7 @@ function Sidenav({ color }) {
       width="14"
       height="14"
       viewBox="0 0 14 14"
-      key={0}
+      key={uuidv4()}
     >
       <path
         d="M0,2A2,2,0,0,1,2,0H8a2,2,0,0,1,2,2V8a2,2,0,0,1-2,2H2A2,2,0,0,1,0,8Z"
@@ -310,7 +318,7 @@ function Sidenav({ color }) {
                 <span className="label">Sign In</span>
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="8">
+            <Menu.Item key={uuidv4()}>
               <NavLink to="/sign-up">
                 <span className="icon">{signup}</span>
                 <span className="label">Sign Up</span>

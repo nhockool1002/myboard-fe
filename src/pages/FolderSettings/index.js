@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { Card, Col, Row, Table, Button, Form, Input, Select } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import { getUser, getToken } from "utils/common";
@@ -9,7 +8,6 @@ import Loader from "react-loader-spinner";
 import axios from "axios";
 import { ShowSweetAlert } from "utils/common";
 import S3CreateBucket from "assets/images/world.png";
-import FolderSettingIcon from "assets/images/folders.png";
 
 // table code start
 const columns = [
@@ -66,7 +64,7 @@ const FolderSetting = (props) => {
             ></ShowSweetAlert>
           )
         );
-    } else history.push(SELF_URL.LOGIN);
+    } else window.location.href = SELF_URL.LOGIN;
   }, []);
 
   useEffect(() => {
@@ -89,7 +87,7 @@ const FolderSetting = (props) => {
             ></ShowSweetAlert>
           )
         );
-    } else history.push(SELF_URL.LOGIN);
+    } else window.location.href = SELF_URL.LOGIN;
   }, [currentBucket, update]);
 
   const handleClickAlert = () => {
@@ -146,7 +144,7 @@ const FolderSetting = (props) => {
   function handleChange(value) {
     if (listAllBucket) {
       const currentBucketFind = listAllBucket.find((item) => {
-        return item.id == value;
+        return item.id === value;
       });
       setCurrentBucketName(currentBucketFind.bucket_name);
     }
@@ -162,7 +160,7 @@ const FolderSetting = (props) => {
         newObj.folder_name = item.folder_name;
         newObj.folder_key = item.folder_key;
         newObj.created_by = item.created_by;
-        dataTable.push(newObj);
+        return dataTable.push(newObj);
       });
     setIsLoading(false);
     setData(dataTable);
@@ -187,7 +185,7 @@ const FolderSetting = (props) => {
             Public Access
           </Button>
         );
-        dataTable.push(newObj);
+        return dataTable.push(newObj);
       });
 
     setDataSelect(dataTable);
@@ -290,7 +288,7 @@ const FolderSetting = (props) => {
               </Form.Item>
             </Form>
             <div className="boxBelowForm">
-              <img src={S3CreateBucket} className="imageBelowBox" />
+              <img src={S3CreateBucket} className="imageBelowBox" alt="this is thumb" />
             </div>
           </Card>
         </Col>
@@ -298,7 +296,5 @@ const FolderSetting = (props) => {
     </div>
   );
 };
-
-FolderSetting.propTypes = {};
 
 export default FolderSetting;

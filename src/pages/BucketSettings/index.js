@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { Card, Col, Row, Table, Button, Form, Input } from "antd";
-import { v4 as uuidv4 } from "uuid";
 import { getUser, getToken } from "utils/common";
 import { S3_API, SELF_URL } from "helpers/url";
 import { useHistory } from "react-router-dom";
@@ -61,7 +59,7 @@ const BucketSettings = (props) => {
             ></ShowSweetAlert>
           )
         );
-    } else history.push(SELF_URL.LOGIN);
+    } else window.location.href = SELF_URL.LOGIN
   }, [update]);
 
   const handleClickAlert = () => {
@@ -130,7 +128,7 @@ const BucketSettings = (props) => {
             Public Access
           </Button>
         );
-        dataTable.push(newObj);
+        return dataTable.push(newObj);
       });
     setData(dataTable);
   };
@@ -196,7 +194,7 @@ const BucketSettings = (props) => {
               </Form.Item>
             </Form>
             <div className="boxBelowForm">
-              <img src={S3CreateBucket} className="imageBelowBox" />
+              <img src={S3CreateBucket} className="imageBelowBox" alt="This is thumb item" />
             </div>
           </Card>
         </Col>
@@ -204,7 +202,5 @@ const BucketSettings = (props) => {
     </div>
   );
 };
-
-BucketSettings.propTypes = {};
 
 export default BucketSettings;
