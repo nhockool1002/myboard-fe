@@ -152,7 +152,7 @@ function SignIn() {
         if (error.response.status === 400) {
           setAlert(
             <ShowSweetAlert
-              type="error"
+              type="danger"
               title="Error"
               message={error.response.data.non_field_errors.toString()}
               onClick={handleClickAlert}
