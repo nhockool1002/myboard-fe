@@ -7,6 +7,8 @@ import Loader from "react-loader-spinner";
 import axios from "axios";
 import { ShowSweetAlert } from "utils/common";
 import S3CreateBucket from "assets/images/world.png";
+import { v4 as uuidv4 } from "uuid";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 // table code start
 const columns = [
@@ -29,6 +31,13 @@ const columns = [
     title: "STATUS",
     dataIndex: "status",
     key: "status",
+    width: "30px",
+  },
+  {
+    title: "DELETE",
+    dataIndex: "delete_bucket",
+    key: "delete_bucket",
+    width: "30px",
   },
 ];
 
@@ -59,7 +68,8 @@ const BucketSettings = (props) => {
             ></ShowSweetAlert>
           )
         );
-    } else window.location.href = SELF_URL.LOGIN
+    } else window.location.href = SELF_URL.LOGIN;
+  // eslint-disable-next-line
   }, [update]);
 
   const handleClickAlert = () => {
@@ -95,7 +105,7 @@ const BucketSettings = (props) => {
           setIsLoading(false);
           setAlert(
             <ShowSweetAlert
-              type="error"
+              type="danger"
               title="Error"
               message={error.response.data.message}
               onClick={handleClickAlert}
@@ -110,6 +120,98 @@ const BucketSettings = (props) => {
     console.log("Failed:", errorInfo);
   };
 
+  const handleConfirmDeleteBucket = (id, name) => {
+    const message = `Are you sure delete ${name} Bucket ?`;
+    setAlert(
+      <SweetAlert
+        warning
+        showCancel
+        confirmBtnText="Yes, delete it!"
+        confirmBtnBsStyle="danger"
+        title={message}
+        onConfirm={() => handleDeleteBucket(name)}
+        onCancel={() => setAlert(null)}
+        focusCancelBtn
+        closeOnClickOutside={false}
+      >
+        This file in bucket will be permanently deleted !
+      </SweetAlert>
+    );
+  };
+
+  const handleDeleteBucket = (name) => {
+    setIsLoading(true);
+    if (currentUser !== null) {
+      axios
+        .delete(
+          S3_API.DELETE_BUCKET + `?bucket_name=${name}`,
+          {
+            headers: { Authorization: "Token " + getToken() },
+          }
+        )
+        .then((res) => {
+          setUpdate(uuidv4());
+          setIsLoading(false);
+          setAlert(
+            <ShowSweetAlert
+              type="success"
+              title="Success"
+              message="DELETE BUCKET SUCCESS"
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setAlert(
+            <ShowSweetAlert
+              type="danger"
+              title="Error"
+              message={error.response.data.message}
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        });
+    } else window.location.href = SELF_URL.LOGIN;
+  };
+
+  const handlePublicAccessBucket = (name) => {
+    setIsLoading(true);
+    if (currentUser !== null) {
+      axios
+        .post(
+          S3_API.PUBLIC_ACCESS_BUCKET,
+          { bucket_name: name},
+          {
+            headers: { Authorization: "Token " + getToken() },
+          }
+        )
+        .then((res) => {
+          setUpdate(uuidv4());
+          setIsLoading(false);
+          setAlert(
+            <ShowSweetAlert
+              type="success"
+              title="Success"
+              message="PUBLIC ACCESS BUCKET SUCCESS"
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setAlert(
+            <ShowSweetAlert
+              type="danger"
+              title="Error"
+              message={error.response.data.message}
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        });
+    } else window.location.href = SELF_URL.LOGIN;
+  }
+
   const handleReceiveData = (dataRes) => {
     const dataTable = [];
     dataRes &&
@@ -120,12 +222,22 @@ const BucketSettings = (props) => {
         newObj.created_by = item.created_by;
         newObj.status = (
           <Button
-            type="danger"
-            className="ant-btn-sm ant-btn-block"
-            onClick={() => console.log("Handle Public Access")}
-            disabled={item.status}
+            type="warning"
+            className="ant-btn-sm ant-btn-block btn-public-access"
+            onClick={() => handlePublicAccessBucket(item.bucket_name)}
+             // eslint-disable-next-line
+            disabled={item.status == 0 ? false : true}
           >
             Public Access
+          </Button>
+        );
+        newObj.delete_bucket = (
+          <Button
+            type="danger"
+            className="ant-btn-sm ant-btn-block"
+            onClick={() => handleConfirmDeleteBucket(item.id, item.bucket_name)}
+          >
+            Delete Bucket
           </Button>
         );
         return dataTable.push(newObj);
@@ -194,7 +306,11 @@ const BucketSettings = (props) => {
               </Form.Item>
             </Form>
             <div className="boxBelowForm">
-              <img src={S3CreateBucket} className="imageBelowBox" alt="This is thumb item" />
+              <img
+                src={S3CreateBucket}
+                className="imageBelowBox"
+                alt="This is thumb item"
+              />
             </div>
           </Card>
         </Col>

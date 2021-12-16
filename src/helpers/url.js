@@ -12,6 +12,9 @@ export const S3_API = {
   UPLOAD_IMAGES: API_URL + "/api/s3-upload-multiple/",
   GET_IMAGE_BY_FOLDER: API_URL + "/api/s3-object-by-folder/",
   DELETE_FILE_BY_ID: API_URL + "/api/s3-file/",
+  DELETE_FOLDER: API_URL + "/api/s3-folder/",
+  DELETE_BUCKET: API_URL + "/api/s3-bucket/",
+  PUBLIC_ACCESS_BUCKET: API_URL + "/api/set-s3-public-access/",
 }
 
 export const SELF_URL = {

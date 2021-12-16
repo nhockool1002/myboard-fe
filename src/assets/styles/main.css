@@ -3135,8 +3135,22 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   background-color: red;
   color: white;
   padding: 10px;
-  border-radius: 10px;
 }
+.btn-link {
+  background-color: #1890ff;
+  color: white;
+  padding: 10px;
+}
+
 .btn-danger:hover {
+  color: white;
+}
+
+.btn-link:hover {
+  color: white;
+}
+
+.btn-public-access {
+  background-color: #c0c053;
   color: white;
 }

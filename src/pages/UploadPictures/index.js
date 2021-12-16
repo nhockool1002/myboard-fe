@@ -214,6 +214,7 @@ const UploadPictures = (props) => {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
+    accept: ".jpg,.jpeg,.png",
     progress: {
       width: "90%",
       strokeColor: {
