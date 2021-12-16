@@ -61,7 +61,7 @@ const BucketSettings = (props) => {
         .catch((error) =>
           setAlert(
             <ShowSweetAlert
-              type="error"
+              type="danger"
               title="Error"
               message={error.response}
               onClick={handleClickAlert}
