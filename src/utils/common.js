@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import alertStyles from "assets/jss/sweetAlertStyle.js";
 import SweetAlert from "react-bootstrap-sweetalert";
+import Moment from "moment";
 
 // return the user data from the session storage
 export const getUser = () => {
@@ -51,4 +52,11 @@ export function ShowSweetAlert({ type, title, message, onClick }) {
       {message}
     </SweetAlert>
   );
+}
+
+export function dateFormat(date, type = "YYYY-MM-DD HH:mm") {
+  if (Moment(date, Moment.ISO_8601, true).isValid()) {
+    return Moment.utc(date).format(type);
+  }
+  return "";
 }
