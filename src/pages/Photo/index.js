@@ -15,7 +15,7 @@ const Photo = (props) => {
                   <img
                     src={ExamplePhoto}
                     style={{ width: "100%", height: "auto" }}
-                    alt="this is thumb"
+                    alt="this is thumbs"
                   />
                   <Title level={3}>6666</Title>
                   <div className="bnb2">2222</div>
