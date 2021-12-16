@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Card, Col, Row, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -26,7 +25,6 @@ const PhotoSettings = (props) => {
     setAlert(null);
     setIsLoading(false);
   };
-
 
   const handleTransitionBucket = () => {
     setAlert(null);
@@ -142,13 +140,18 @@ const PhotoSettings = (props) => {
                   <Title level={4}>
                     <small className="bnb2">
                       Management Bucket on S3 Server
-                    </small>{" "} <br />
+                    </small>{" "}
+                    <br />
                     Bucket Settings
                   </Title>
                 </Col>
                 <Col xs={6}>
                   <div className="icon-box icon-box-custom">
-                    <img className="iconImg" src={PhotoBucket} />
+                    <img
+                      className="iconImg"
+                      src={PhotoBucket}
+                      alt="this is thumb"
+                    />
                   </div>
                 </Col>
               </Row>
@@ -176,13 +179,18 @@ const PhotoSettings = (props) => {
                   <Title level={4}>
                     <small className="bnb2">
                       Management Folders in Buckets
-                    </small>{" "} <br />
+                    </small>{" "}
+                    <br />
                     Folders Settings
                   </Title>
                 </Col>
                 <Col xs={6}>
                   <div className="icon-box icon-box-custom">
-                    <img className="iconImg" src={FolderSetting} />
+                    <img
+                      className="iconImg"
+                      src={FolderSetting}
+                      alt="this is thumb"
+                    />
                   </div>
                 </Col>
               </Row>
@@ -210,13 +218,18 @@ const PhotoSettings = (props) => {
                   <Title level={4}>
                     <small className="bnb2">
                       Management Picture in Folders
-                    </small>{" "} <br />
+                    </small>{" "}
+                    <br />
                     Upload Pictures
                   </Title>
                 </Col>
                 <Col xs={6}>
                   <div className="icon-box icon-box-custom">
-                    <img className="iconImg" src={UploadImage} />
+                    <img
+                      className="iconImg"
+                      src={UploadImage}
+                      alt="this is thumb"
+                    />
                   </div>
                 </Col>
               </Row>
@@ -227,7 +240,5 @@ const PhotoSettings = (props) => {
     </div>
   );
 };
-
-PhotoSettings.propTypes = {};
 
 export default PhotoSettings;

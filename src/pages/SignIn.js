@@ -9,7 +9,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -128,7 +128,7 @@ function SignIn() {
 
   useEffect(() => {
     const user = getUser();
-    if (user !== null) history.push(SELF_URL.DASHBOARD);
+    if (user !== null) window.location.href = SELF_URL.DASHBOARD;
   }, []);
 
   const handleClickAlert = () => {
