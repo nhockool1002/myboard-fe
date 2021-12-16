@@ -12,7 +12,7 @@ import ExamplePhoto from "assets/images/example.png";
 const Photo = (props) => {
   const { Title } = Typography;
   const { Option } = Select;
-  const [update, setUpdate] = useState(0);
+  const [update] = useState(0);
   const [currentBucket, setCurrentBucket] = useState({});
   const [listBucket, setListBucket] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
@@ -70,6 +70,7 @@ const Photo = (props) => {
           )
         );
     }
+  // eslint-disable-next-line
   }, [currentBucket]);
 
   const handleBucketReceive = (data) => {
