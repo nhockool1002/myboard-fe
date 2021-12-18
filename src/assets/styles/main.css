@@ -3154,3 +3154,9 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   background-color: #c0c053;
   color: white;
 }
+.photoBox img {
+  height: 220px !important;
+}
+.photoBox:hover {
+  cursor: pointer;
+}

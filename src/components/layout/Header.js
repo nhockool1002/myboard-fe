@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import {
   Row,
   Col,
-  Breadcrumb,
+  // Breadcrumb,
   Badge,
   Dropdown,
   Button,
@@ -34,7 +34,8 @@ import {
   FacebookFilled,
 } from "@ant-design/icons";
 
-import { NavLink, Link } from "react-router-dom";
+// import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import avtar from "../../assets/images/team-2.jpg";
 
@@ -275,20 +276,20 @@ function Header({
       </div>
       <Row gutter={[24, 0]}>
         <Col span={24} md={6}>
-          <Breadcrumb>
+          {/* <Breadcrumb>
             <Breadcrumb.Item>
               <NavLink to="/">Pages</NavLink>
             </Breadcrumb.Item>
             <Breadcrumb.Item style={{ textTransform: "capitalize" }}>
               {name.replace("/", "")}
             </Breadcrumb.Item>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <div className="ant-page-header-heading">
             <span
               className="ant-page-header-heading-title"
               style={{ textTransform: "capitalize" }}
             >
-              {subName.replace("/", "")}
+              {subName.replace("/", "/")}
             </span>
           </div>
         </Col>
