@@ -63,7 +63,12 @@ const PhotoDetail = (props) => {
   }, [page]);
 
   const handleChangePage = (page_num) => {
-    setPage(page_num);
+    setIsLoading(true);
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      setPage(page_num);
+      setIsLoading(false);
+    }, 2000);
   };
 
   const handleClickAlert = () => {
