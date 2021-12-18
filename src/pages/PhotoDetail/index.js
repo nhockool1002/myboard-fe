@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Card, Col, Row, Pagination } from "antd";
+import { Col, Row, Pagination } from "antd";
 import { getUser, getToken } from "utils/common";
 import { S3_API, SELF_URL } from "helpers/url";
 import Loader from "react-loader-spinner";
@@ -10,7 +10,7 @@ import { ShowSweetAlert } from "utils/common";
 import { useHistory } from "react-router-dom";
 import ExamplePhoto from "assets/images/example.png";
 import { SRLWrapper } from "simple-react-lightbox";
-import { v4 as uuidv4 } from "uuid";
+import Masonry from "react-masonry-component";
 
 const PhotoDetail = (props) => {
   const history = useHistory();
@@ -21,7 +21,13 @@ const PhotoDetail = (props) => {
   const [total, setTotal] = useState(0);
   const [pagination, setPagination] = useState(false);
   const [rowPerPage, setRowPerPage] = useState(0);
-  const [listImage, setListImage] = useState([]);
+  const [mansoryImage, setMansoryImage] = useState([]);
+
+  const masonryOptions = {
+    transitionDuration: 0,
+  };
+
+  const imagesLoadedOptions = { background: ".my-bg-image-el" };
 
   useEffect(() => {
     setIsLoading(true);
@@ -37,10 +43,10 @@ const PhotoDetail = (props) => {
         )
         .then((res) => {
           setIsLoading(false);
-          setListImage(res.data.data);
           setTotal(res.data.total);
           setPagination(true);
           setRowPerPage(res.data.row_per_page);
+          setMansoryImage(res.data.data);
         })
         .catch((error) =>
           setAlert(
@@ -53,7 +59,7 @@ const PhotoDetail = (props) => {
           )
         );
     } else history.push(SELF_URL.LOGIN);
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [page]);
 
   const handleChangePage = (page_num) => {
@@ -80,34 +86,25 @@ const PhotoDetail = (props) => {
         </div>
       )}
       <SRLWrapper>
-        <Row className="rowgap-vbox" gutter={[12, 0]}>
-          {listImage &&
-            listImage.map((item) => (
-              <Col
-                key={uuidv4()}
-                xs={24}
-                sm={24}
-                md={12}
-                lg={6}
-                xl={6}
-                className="mb-24"
-              >
-                <Card bordered={false} className="criclebox photoBox">
-                  <div className="number">
-                    <Row align="middle" gutter={[24, 0]}>
-                      <Col xs={24}>
-                        <img
-                          src={item.url ? item.url : ExamplePhoto}
-                          style={{ width: "100%", height: "auto" }}
-                          alt="this is thumbs"
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                </Card>
-              </Col>
+        {mansoryImage && (
+          <Masonry
+            className={"my-gallery-class"} // default ''
+            elementType={"ul"} // default 'div'
+            options={masonryOptions} // default {}
+            disableImagesLoaded={false} // default false
+            updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+            imagesLoadedOptions={imagesLoadedOptions} // default {}
+          >
+            {mansoryImage.map((item) => (
+              <li className="image-element-class">
+                <img
+                  src={item.url ? item.url : ExamplePhoto}
+                  style={{ width: "420px" }}
+                />
+              </li>
             ))}
-        </Row>
+          </Masonry>
+        )}
       </SRLWrapper>
       <Row>
         <Col span={24}>

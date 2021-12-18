@@ -3160,3 +3160,9 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
 .photoBox:hover {
   cursor: pointer;
 }
+.my-gallery-class li {
+  list-style-type: none;
+}
+.my-gallery-class img {
+  cursor: pointer;
+}
