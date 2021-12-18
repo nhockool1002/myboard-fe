@@ -3155,8 +3155,14 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   color: white;
 }
 .photoBox img {
-  height: 220px !important;
+  height: 370px !important;
 }
+
+.photoBox h4.ant-typography {
+  min-height: 50px;
+  margin-top: 10px;
+}
+
 .photoBox:hover {
   cursor: pointer;
 }
