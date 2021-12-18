@@ -100,6 +100,7 @@ const PhotoDetail = (props) => {
                 <img
                   src={item.url ? item.url : ExamplePhoto}
                   style={{ width: "420px" }}
+                  alt="this is thumbs"
                 />
               </li>
             ))}
