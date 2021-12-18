@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { Card, Col, Row, Typography, Select } from "antd";
 import { getUser, getToken } from "utils/common";
 import { S3_API, SELF_URL } from "helpers/url";
 import Loader from "react-loader-spinner";
 import { isEmpty } from "lodash";
+import { v4 as uuidv4 } from "uuid";
 
 import { ShowSweetAlert, dateFormat } from "utils/common";
 import ExamplePhoto from "assets/images/example.png";
+
 
 const Photo = (props) => {
   const { Title } = Typography;
@@ -19,6 +22,7 @@ const Photo = (props) => {
   const [loading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const [listFolder, setListFolder] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     setIsLoading(true);
@@ -70,7 +74,7 @@ const Photo = (props) => {
           )
         );
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [currentBucket]);
 
   const handleBucketReceive = (data) => {
@@ -91,6 +95,13 @@ const Photo = (props) => {
       });
       setCurrentBucket(bucket);
     }
+  };
+
+  const handleRedirectDetail = (folder) => {
+    history.push(
+      SELF_URL.PHOTO_DETAIL +
+        `/${folder.folder_key}/${currentBucket.bucket_name}`
+    );
   };
 
   return (
@@ -132,7 +143,7 @@ const Photo = (props) => {
         {listFolder &&
           listFolder.map((item) => (
             <Col
-              key={1}
+              key={uuidv4()}
               xs={24}
               sm={24}
               md={12}
@@ -140,7 +151,11 @@ const Photo = (props) => {
               xl={6}
               className="mb-24"
             >
-              <Card bordered={false} className="criclebox ">
+              <Card
+                bordered={false}
+                className="criclebox photoBox"
+                onClick={() => handleRedirectDetail(item)}
+              >
                 <div className="number">
                   <Row align="middle" gutter={[24, 0]}>
                     <Col xs={24}>
@@ -149,7 +164,9 @@ const Photo = (props) => {
                         style={{ width: "100%", height: "auto" }}
                         alt="this is thumbs"
                       />
-                      <Title level={4}>{item.folder_name ? item.folder_name : ""}</Title>
+                      <Title level={4}>
+                        {item.folder_name ? item.folder_name : ""}
+                      </Title>
                       <div className="bnb2">
                         {item.created_at ? dateFormat(item.created_at) : ""}
                       </div>

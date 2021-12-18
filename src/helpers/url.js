@@ -23,4 +23,5 @@ export const SELF_URL = {
   BUCKET_MANAGEMENT: "/bucket-management",
   FOLDER_MANAGEMENT: "/folder-management",
   UPLOAD_PICTURE: "/upload-pictures",
+  PHOTO_DETAIL: "/photo-details",
 }
