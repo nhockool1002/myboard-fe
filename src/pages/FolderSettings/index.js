@@ -187,7 +187,6 @@ const FolderSetting = (props) => {
           );
         });
     } else history.push(SELF_URL.LOGIN);
-    console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {

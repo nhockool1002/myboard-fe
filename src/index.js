@@ -9,11 +9,10 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import SimpleReactLightbox from 'simple-react-lightbox'
+import SimpleReactLightbox from "simple-react-lightbox";
 
 ReactDOM.render(
   <SimpleReactLightbox>
@@ -21,5 +20,5 @@ ReactDOM.render(
       <App />
     </BrowserRouter>
   </SimpleReactLightbox>,
-  document.getElementById("root"),
+  document.getElementById("root")
 );

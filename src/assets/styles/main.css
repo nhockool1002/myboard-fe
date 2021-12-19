@@ -967,7 +967,7 @@ button.ant-btn.bell strong {
   width: 48px;
   height: 48px;
   text-align: center;
-  background: #F2DCDA;
+  background: #f2dcda;
   color: #fff;
   border-radius: 0.5rem;
   margin-left: auto;
@@ -3099,7 +3099,7 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   margin-right: 8px;
 }
 
-.upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
+.upload-list-inline [class*="-upload-list-rtl"] .ant-upload-list-item {
   float: right;
 }
 
@@ -3173,7 +3173,97 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   cursor: pointer;
 }
 
-@media (min-width: 601px) and (max-width: 1024px){
+.boxSetting {
+  box-sizing: border-box;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.boxSetting .ant-card-head-title {
+  font-weight: bold;
+}
+
+.ant-btn-setting {
+  display: block;
+  margin-left: auto;
+  margin-right: 20px;
+  background-color: #330d59;
+  border: none;
+}
+.ant-btn-setting:focus {
+  border: none;
+}
+
+.setting-wrapper .ant-card.ant-card-type-inner {
+  box-shadow: unset !important;
+}
+.setting-wrapper .ant-card-type-inner .ant-card-head-title {
+  padding: 0 0 !important;
+}
+.setting-wrapper .ant-card-head-wrapper {
+  min-height: 50px;
+}
+.setting-wrapper .ant-card-type-inner .ant-card-body {
+  padding: 0 0;
+}
+.setting-wrapper .ant-card-body .ant-form-item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.setting-wrapper .ant-row.ant-form-item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.setting-wrapper .ant-card-actions > li {
+  margin: 0 0;
+}
+.setting-wrapper .ant-card-actions {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+}
+.ant-card-body .react-quill {
+  box-shadow: unset !important;
+}
+.setting-wrapper.react-quill .ant-card-body {
+  padding: 0;
+}
+.reactBoxSetting {
+  margin-bottom: 10px;
+}
+
+.textNotice {
+  width: 150px;
+  color: white;
+  font-weight: bold;
+  background-color: palevioletred;
+  padding: 10px;
+}
+.textNotice:hover {
+  cursor: pointer;
+  box-shadow: 4px 4px 0px rgb(32 19 19 / 38%);
+  transition: ease all 0.5s;
+}
+.boxUploadThumbSetting {
+  padding-top: 35px;
+  text-align: center;
+}
+.boxUploadThumbSettingFav {
+  padding-top: 0px;
+  text-align: center;
+}
+.boxUploadThumbSetting .upload-list-inline .ant-upload-list-item {
+  float: unset;
+  margin-right: unset;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.boxImgThumbSetting {
+  text-align: center;
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
   .my-gallery-class {
     margin-block-start: 0;
     margin-block-end: 0;
@@ -3188,7 +3278,6 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
     width: 100%;
   }
 }
-
 
 @media (min-width: 320px) and (max-width: 600px) {
   .my-gallery-class {
