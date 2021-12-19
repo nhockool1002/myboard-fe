@@ -9,6 +9,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Tables from "./pages/Tables";
@@ -28,13 +29,98 @@ import PrivateRoute from "utils/privateRoute";
 import PhotoSettings from "pages/PhotoSettings";
 import BucketSettings from "pages/BucketSettings";
 import FolderSetting from "pages/FolderSettings";
-import UploadPictures from 'pages/UploadPictures';
+import UploadPictures from "pages/UploadPictures";
 import PhotoDetail from "pages/PhotoDetail";
+import Settings from "pages/Settings";
+import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+// import { getUser, getToken } from "utils/common";
+import { SETTING_API } from "helpers/url";
+import { ShowSweetAlert } from "utils/common";
+import axios from "axios";
+import { Helmet } from "react-helmet";
 
 function App() {
+  const [listSetting, setListSetting] = useState([]);
+  const [loading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
+
+  const handleClickAlert = () => {
+    setAlert(null);
+    setIsLoading(false);
+  };
+
+  const getData = (data, itemFind) => {
+    if (data) {
+      return data.find((item) => {
+        return item.setting_key === itemFind;
+      })?.setting_value;
+    }
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+        .get(SETTING_API.GET_GENERAL_SETTINGS)
+        .then((res) => {
+          setIsLoading(false);
+          setListSetting({
+            title: getData(res.data.data, "title"),
+            description: getData(res.data.data, "description"),
+            image: getData(res.data.data, "thumb_image"),
+            fav: getData(res.data.data, "fav_image"),
+          });
+        })
+        .catch((error) => {
+          setIsLoading(true);
+          setAlert(
+            <ShowSweetAlert
+              type="danger"
+              title="Error"
+              message={error.response}
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        });
+  // eslint-disable-next-line
+  }, []);
+
   return (
     <div className="App">
+      {alert}
+      {loading && (
+        <div className="loaderWrapper">
+          <Loader
+            visible={loading}
+            type="Puff"
+            color="#00BFFF"
+            height={100}
+            width="100%"
+          />
+        </div>
+      )}
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{listSetting ? listSetting.title : ""}</title>
+        <link rel="canonical" href={window.location.href} />
+        <link rel="icon" type="image/png" href={listSetting ? listSetting.fav : ""} />
+        <meta name="description" content={listSetting ? listSetting.description : ""} />
+        <meta property="og:locale" content="vi_VN" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={listSetting ? listSetting.title : ""} />
+        <meta property="og:description" content={listSetting ? listSetting.description : ""} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:site_name" content={listSetting ? listSetting.title : ""} />
+        <meta property="og:image" content={listSetting ? listSetting.image : ""}  />
+        <meta property="og:image:secure_url" content={listSetting ? listSetting.image : ""}  />
+        <meta property="og:image:width" content="297" />
+        <meta property="og:image:height" content="295" />
+        <meta property="og:image:type" content="image/png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={listSetting ? listSetting.title : ""} />
+        <meta name="twitter:description" content={listSetting ? listSetting.description : ""} />
+        <meta name="twitter:image" content={listSetting ? listSetting.image : ""}  />
+      </Helmet>
       <Switch>
         <Route path="/sign-up" exact component={SignUp} />
         <Route path="/sign-in" exact component={SignIn} />
@@ -46,11 +132,32 @@ function App() {
           <PrivateRoute exact path="/profile" component={Profile} />
           {/* <Redirect from="*" to="/dashboard" /> */}
           <PrivateRoute exact path="/photo" component={Photo} />
-          <PrivateRoute exact path="/photo-settings" component={PhotoSettings} />
-          <PrivateRoute exact path="/bucket-management" component={BucketSettings} />
-          <PrivateRoute exact path="/folder-management" component={FolderSetting} />
-          <PrivateRoute exact path="/upload-pictures" component={UploadPictures} />
-          <PrivateRoute exact path="/photo-details/:folder_key/:bucket_name" component={PhotoDetail} />
+          <PrivateRoute
+            exact
+            path="/photo-settings"
+            component={PhotoSettings}
+          />
+          <PrivateRoute
+            exact
+            path="/bucket-management"
+            component={BucketSettings}
+          />
+          <PrivateRoute
+            exact
+            path="/folder-management"
+            component={FolderSetting}
+          />
+          <PrivateRoute
+            exact
+            path="/upload-pictures"
+            component={UploadPictures}
+          />
+          <PrivateRoute
+            exact
+            path="/photo-details/:folder_key/:bucket_name"
+            component={PhotoDetail}
+          />
+          <PrivateRoute exact path="/general-settings" component={Settings} />
         </Main>
       </Switch>
     </div>

@@ -17,6 +17,12 @@ export const S3_API = {
   PUBLIC_ACCESS_BUCKET: API_URL + "/api/set-s3-public-access/",
 }
 
+export const SETTING_API = {
+  GET_GENERAL_SETTINGS: API_URL + "/api/settings/",
+  UPDADTE_GENERAL_SETTINGS: API_URL + "/api/settings/",
+  UPDADTE_THUMB_SETTINGS: API_URL + "/api/settings/update-thumb"
+}
+
 export const SELF_URL = {
   LOGIN: "/sign-in",
   DASHBOARD: "/dashboard",
@@ -24,4 +30,5 @@ export const SELF_URL = {
   FOLDER_MANAGEMENT: "/folder-management",
   UPLOAD_PICTURE: "/upload-pictures",
   PHOTO_DETAIL: "/photo-details",
+  GENERAL_SETTINGS: "/general-settings",
 }

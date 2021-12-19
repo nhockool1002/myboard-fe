@@ -223,6 +223,19 @@ function Sidenav({ color }) {
           Setting Function
         </Menu.Item>
         <Menu.Item key={uuidv4()}>
+          <NavLink to="/general-settings">
+            <span
+              className="icon"
+              style={{
+                background: page === "general-settings" ? color : "",
+              }}
+            >
+              {photoSettings}
+            </span>
+            <span className="label">General Settings</span>
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key={uuidv4()}>
           <NavLink to="/photo-settings">
             <span
               className="icon"
