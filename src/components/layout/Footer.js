@@ -12,8 +12,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Layout, Row, Col } from "antd";
-import { getUser, getToken } from "utils/common";
-import { SETTING_API, SELF_URL } from "helpers/url";
+// import { getUser, getToken } from "utils/common";
+import { SETTING_API } from "helpers/url";
 import { ShowSweetAlert } from "utils/common";
 import ReactHtmlParser from "react-html-parser";
 import Loader from "react-loader-spinner";
@@ -32,12 +32,8 @@ function Footer() {
 
   useEffect(() => {
     setIsLoading(true);
-    const user = getUser();
-    if (user !== null) {
-      axios
-        .get(SETTING_API.GET_GENERAL_SETTINGS, {
-          headers: { Authorization: "Token " + getToken() },
-        })
+    axios
+        .get(SETTING_API.GET_GENERAL_SETTINGS)
         .then((res) => {
           setIsLoading(false);
           const data = res.data.data.find((item) => {
@@ -56,7 +52,6 @@ function Footer() {
             ></ShowSweetAlert>
           );
         });
-    } else window.location.href = SELF_URL.LOGIN;
   // eslint-disable-next-line
   }, []);
 

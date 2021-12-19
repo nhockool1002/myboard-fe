@@ -34,8 +34,8 @@ import PhotoDetail from "pages/PhotoDetail";
 import Settings from "pages/Settings";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import { getUser, getToken } from "utils/common";
-import { SETTING_API, SELF_URL } from "helpers/url";
+// import { getUser, getToken } from "utils/common";
+import { SETTING_API } from "helpers/url";
 import { ShowSweetAlert } from "utils/common";
 import axios from "axios";
 import { Helmet } from "react-helmet";
@@ -60,12 +60,8 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true);
-    const user = getUser();
-    if (user !== null) {
-      axios
-        .get(SETTING_API.GET_GENERAL_SETTINGS, {
-          headers: { Authorization: "Token " + getToken() },
-        })
+    axios
+        .get(SETTING_API.GET_GENERAL_SETTINGS)
         .then((res) => {
           setIsLoading(false);
           setListSetting({
@@ -86,7 +82,6 @@ function App() {
             ></ShowSweetAlert>
           );
         });
-    } else window.location.href = SELF_URL.LOGIN;
   // eslint-disable-next-line
   }, []);
 
