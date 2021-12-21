@@ -331,7 +331,7 @@ const Notes = (props) => {
           listNotes.map((item) => (
             <Col span={8}>
               <Card
-                bodyStyle={{ height: 100, maxHeight: 150, overflow: "auto" }}
+                bodyStyle={{ height: 180, maxHeight: 210, overflow: "auto" }}
                 size="small"
                 title={item.note_key}
                 style={{ width: "90%" }}
