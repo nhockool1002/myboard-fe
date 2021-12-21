@@ -32,6 +32,7 @@ import FolderSetting from "pages/FolderSettings";
 import UploadPictures from "pages/UploadPictures";
 import PhotoDetail from "pages/PhotoDetail";
 import Settings from "pages/Settings";
+import Notes from "pages/Notes";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // import { getUser, getToken } from "utils/common";
@@ -132,6 +133,7 @@ function App() {
           <PrivateRoute exact path="/profile" component={Profile} />
           {/* <Redirect from="*" to="/dashboard" /> */}
           <PrivateRoute exact path="/photo" component={Photo} />
+          <PrivateRoute exact path="/notes" component={Notes} />
           <PrivateRoute
             exact
             path="/photo-settings"

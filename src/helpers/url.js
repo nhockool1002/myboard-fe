@@ -23,6 +23,13 @@ export const SETTING_API = {
   UPDADTE_THUMB_SETTINGS: API_URL + "/api/settings/update-thumb"
 }
 
+export const NOTE_API = {
+  GET_NOTES: API_URL + "/api/notes/",
+  CREATE_NOTES: API_URL + "/api/notes/",
+  UPDATE_NOTES: API_URL + "/api/update-notes/",
+  DELETE_NOTES: API_URL + "/api/notes/",
+}
+
 export const SELF_URL = {
   LOGIN: "/sign-in",
   DASHBOARD: "/dashboard",

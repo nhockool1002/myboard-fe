@@ -16,6 +16,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import logo from "assets/images/logo.png";
 import photoIcon from "assets/images/photos.png";
 import photoSettingsIcon from "assets/images/photo-settings.png";
+import notesIcon from "assets/images/notes.png";
 import { getUser, removeUserSession } from "utils/common";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -51,9 +52,19 @@ function Sidenav({ color }) {
     <img
       src={photoSettingsIcon}
       style={{ width: "20px", height: "20px" }}
-      alt="This is thumb icon   "
+      alt="This is thumb icon"
     />,
   ];
+
+  const notesIconCp = [
+    <img
+      src={notesIcon}
+      style={{ width: "20px", height: "20px" }}
+      alt="This is thumb icon"
+    />,
+  ];
+
+
   const dashboard = [
     <svg
       width="20"
@@ -217,6 +228,19 @@ function Sidenav({ color }) {
               {photo}
             </span>
             <span className="label">Photo</span>
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key={uuidv4()}>
+          <NavLink to="/notes">
+            <span
+              className="icon"
+              style={{
+                background: page === "notes" ? color : "",
+              }}
+            >
+              {notesIconCp}
+            </span>
+            <span className="label">Notes</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item className="menu-item-header" key={uuidv4()}>
