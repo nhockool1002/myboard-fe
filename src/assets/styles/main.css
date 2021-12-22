@@ -3262,6 +3262,19 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
 .boxImgThumbSetting {
   text-align: center;
 }
+.boxNoteWrapper {
+  margin-top: 20px;
+}
+.boxNotes {
+  width: 90%;
+}
+.boxNoteReactQuill {
+  height: 200px;
+  margin-bottom: 80px;
+}
+.modalNote {
+  width: 50%;
+}
 
 @media (min-width: 601px) and (max-width: 1024px) {
   .my-gallery-class {
@@ -3293,5 +3306,12 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   }
   .my-gallery-class li img {
     width: 100% !important;
+  }
+  .boxNotes {
+    width: 100%;
+  }
+  .boxNoteReactQuill {
+    height: 180px;
+    margin-bottom: 80px;
   }
 }
