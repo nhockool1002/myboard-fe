@@ -320,7 +320,7 @@ const Notes = (props) => {
             className="reactBoxSetting boxNoteReactQuill"
           />
         ) : (
-          <div>
+          <div style={{ overflow: "overlay", maxHeight: "300px" }}>
             {currentNotes.note_content
               ? ReactHtmlParser(currentNotes.note_content)
               : ""}
