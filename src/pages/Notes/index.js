@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Card, Col, Row, Modal, Button, Input } from "antd";
 import {
-  EditOutlined,
+  EditTwoTone,
   DeleteOutlined,
   FileAddOutlined,
+  EyeTwoTone,
 } from "@ant-design/icons";
 import { NOTE_API, SELF_URL } from "helpers/url";
 import {
@@ -37,11 +38,19 @@ const Notes = (props) => {
   const [newNoteKey, setNewNoteKey] = useState("");
   const [newNoteContent, setNewNoteContent] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [mode, setMode] = useState("");
 
-  const showModal = (item) => {
-    setCurrentNotes(item);
-    setNewContent(item.note_content);
-    setIsModalVisible(true);
+  const showModal = (item, mode = "edit") => {
+    if (mode === "edit") {
+      setMode("edit");
+      setCurrentNotes(item);
+      setNewContent(item.note_content);
+      setIsModalVisible(true);
+    } else {
+      setMode("view");
+      setCurrentNotes(item);
+      setIsModalVisible(true);
+    }
   };
 
   const showModalAdd = () => {
@@ -168,60 +177,61 @@ const Notes = (props) => {
   const handleRemove = (item) => {
     if (currentUser) {
       setIsLoading(true);
-    axios
-      .delete(NOTE_API.DELETE_NOTES + `?note_key=${item}`, {
-        headers: { Authorization: "Token " + getToken() },
-      })
-      .then((res) => {
-        setUpdate(uuidv4());
-        setIsLoading(false);
-        setAlert(
-          <ShowSweetAlert
-            type="success"
-            title="Success"
-            message="DELETE NOTE SUCCESS"
-            onClick={handleClickAlert}
-          ></ShowSweetAlert>
-        );
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setAlert(
-          <ShowSweetAlert
-            type="danger"
-            title="Error"
-            message={error.response.data.message}
-            onClick={handleClickAlert}
-          ></ShowSweetAlert>
-        );
-      });setIsLoading(true);
-    axios
-      .delete(NOTE_API.DELETE_NOTES + `?note_key=${item}`, {
-        headers: { Authorization: "Token " + getToken() },
-      })
-      .then((res) => {
-        setUpdate(uuidv4());
-        setIsLoading(false);
-        setAlert(
-          <ShowSweetAlert
-            type="success"
-            title="Success"
-            message="DELETE NOTE SUCCESS"
-            onClick={handleClickAlert}
-          ></ShowSweetAlert>
-        );
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setAlert(
-          <ShowSweetAlert
-            type="danger"
-            title="Error"
-            message={error.response.data.message}
-            onClick={handleClickAlert}
-          ></ShowSweetAlert>
-        );
-      });
+      axios
+        .delete(NOTE_API.DELETE_NOTES + `?note_key=${item}`, {
+          headers: { Authorization: "Token " + getToken() },
+        })
+        .then((res) => {
+          setUpdate(uuidv4());
+          setIsLoading(false);
+          setAlert(
+            <ShowSweetAlert
+              type="success"
+              title="Success"
+              message="DELETE NOTE SUCCESS"
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setAlert(
+            <ShowSweetAlert
+              type="danger"
+              title="Error"
+              message={error.response.data.message}
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        });
+      setIsLoading(true);
+      axios
+        .delete(NOTE_API.DELETE_NOTES + `?note_key=${item}`, {
+          headers: { Authorization: "Token " + getToken() },
+        })
+        .then((res) => {
+          setUpdate(uuidv4());
+          setIsLoading(false);
+          setAlert(
+            <ShowSweetAlert
+              type="success"
+              title="Success"
+              message="DELETE NOTE SUCCESS"
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setAlert(
+            <ShowSweetAlert
+              type="danger"
+              title="Error"
+              message={error.response.data.message}
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        });
     }
   };
 
@@ -250,7 +260,7 @@ const Notes = (props) => {
           );
         });
     } else history.push(SELF_URL.LOGIN);
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [update]);
 
   return (
@@ -270,20 +280,52 @@ const Notes = (props) => {
       <Modal
         title={currentNotes ? currentNotes.note_key : ""}
         visible={isModalVisible}
-        onOk={handleOk}
+        onOk={mode === "edit" ? handleOk : handleCancel}
         onCancel={handleCancel}
-        width="50%"
+        className="modalNote"
         bodyStyle={{ height: 320, maxHeight: 550 }}
+        footer={
+          mode === "edit"
+            ? [
+                <Button
+                  key="editmode"
+                  onClick={() => showModal(currentNotes, "view")}
+                >
+                  View
+                </Button>,
+                <Button type="primary" key="ok" onClick={handleOk}>
+                  OK
+                </Button>,
+                <Button key="cancal" onClick={handleCancel}>
+                  Cancel
+                </Button>,
+              ]
+            : [
+                <Button
+                  key="editmode"
+                  onClick={() => showModal(currentNotes, "edit")}
+                >
+                  Edit
+                </Button>,
+              ]
+        }
       >
-        <ReactQuill
-          theme="snow"
-          value={newContent}
-          onChange={setNewContent}
-          modules={reactQuillSetting.modules}
-          formats={reactQuillSetting.formats}
-          className="reactBoxSetting"
-          style={{ height: 200, marginBottom: "80px" }}
-        />
+        {mode === "edit" ? (
+          <ReactQuill
+            theme="snow"
+            value={newContent}
+            onChange={setNewContent}
+            modules={reactQuillSetting.modules}
+            formats={reactQuillSetting.formats}
+            className="reactBoxSetting boxNoteReactQuill"
+          />
+        ) : (
+          <div>
+            {currentNotes.note_content
+              ? ReactHtmlParser(currentNotes.note_content)
+              : ""}
+          </div>
+        )}
       </Modal>
       <Modal
         title="Add new note"
@@ -307,8 +349,7 @@ const Notes = (props) => {
           onChange={setNewNoteContent}
           modules={reactQuillSetting.modules}
           formats={reactQuillSetting.formats}
-          className="reactBoxSetting"
-          style={{ height: 200, marginBottom: "80px" }}
+          className="reactBoxSetting boxNoteReactQuill"
         />
         {errorMessage && (
           <div style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</div>
@@ -329,12 +370,12 @@ const Notes = (props) => {
       <Row>
         {listNotes &&
           listNotes.map((item) => (
-            <Col span={8}>
+            <Col md={8} lg={8} xs={24} sm={12} className="boxNoteWrapper">
               <Card
                 bodyStyle={{ height: 180, maxHeight: 210, overflow: "auto" }}
                 size="small"
                 title={item.note_key}
-                style={{ width: "90%" }}
+                className="boxNotes"
                 extra={
                   <Button
                     type="danger"
@@ -345,7 +386,14 @@ const Notes = (props) => {
                   </Button>
                 }
                 actions={[
-                  <EditOutlined key="edit" onClick={() => showModal(item)} />,
+                  <EyeTwoTone
+                    key="view"
+                    onClick={() => showModal(item, "view")}
+                  />,
+                  <EditTwoTone
+                    key="edit"
+                    onClick={() => showModal(item, "edit")}
+                  />,
                 ]}
               >
                 {ReactHtmlParser(item.note_content)}
