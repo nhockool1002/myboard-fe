@@ -280,12 +280,12 @@ const Notes = (props) => {
       <Modal
         title={currentNotes ? currentNotes.note_key : ""}
         visible={isModalVisible}
-        onOk={mode == "edit" ? handleOk : handleCancel}
+        onOk={mode === "edit" ? handleOk : handleCancel}
         onCancel={handleCancel}
         className="modalNote"
         bodyStyle={{ height: 320, maxHeight: 550 }}
         footer={
-          mode == "edit"
+          mode === "edit"
             ? [
                 <Button
                   key="editmode"
@@ -310,7 +310,7 @@ const Notes = (props) => {
               ]
         }
       >
-        {mode == "edit" ? (
+        {mode === "edit" ? (
           <ReactQuill
             theme="snow"
             value={newContent}
