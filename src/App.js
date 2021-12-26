@@ -33,6 +33,7 @@ import UploadPictures from "pages/UploadPictures";
 import PhotoDetail from "pages/PhotoDetail";
 import Settings from "pages/Settings";
 import Notes from "pages/Notes";
+import MoneyExchange from "pages/MoneyExchange";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // import { getUser, getToken } from "utils/common";
@@ -40,6 +41,7 @@ import { SETTING_API } from "helpers/url";
 import { ShowSweetAlert } from "utils/common";
 import axios from "axios";
 import { Helmet } from "react-helmet";
+import { SELF_URL } from 'helpers/url';
 
 function App() {
   const [listSetting, setListSetting] = useState([]);
@@ -132,26 +134,27 @@ function App() {
           <PrivateRoute exact path="/rtl" component={Rtl} />
           <PrivateRoute exact path="/profile" component={Profile} />
           {/* <Redirect from="*" to="/dashboard" /> */}
-          <PrivateRoute exact path="/photo" component={Photo} />
-          <PrivateRoute exact path="/notes" component={Notes} />
+          <PrivateRoute exact path={SELF_URL.PHOTO} component={Photo} />
+          <PrivateRoute exact path={SELF_URL.NOTES} component={Notes} />
+          <PrivateRoute exact path={SELF_URL.MONEY_EXCHANGE} component={MoneyExchange} />
           <PrivateRoute
             exact
-            path="/photo-settings"
+            path={SELF_URL.PHOTO_SETTINGS}
             component={PhotoSettings}
           />
           <PrivateRoute
             exact
-            path="/bucket-management"
+            path={SELF_URL.BUCKET_MANAGEMENT}
             component={BucketSettings}
           />
           <PrivateRoute
             exact
-            path="/folder-management"
+            path={SELF_URL.FOLDER_MANAGEMENT}
             component={FolderSetting}
           />
           <PrivateRoute
             exact
-            path="/upload-pictures"
+            path={SELF_URL.UPLOAD_PICTURE}
             component={UploadPictures}
           />
           <PrivateRoute
@@ -159,7 +162,7 @@ function App() {
             path="/photo-details/:folder_key/:bucket_name"
             component={PhotoDetail}
           />
-          <PrivateRoute exact path="/general-settings" component={Settings} />
+          <PrivateRoute exact path={SELF_URL.GENERAL_SETTINGS} component={Settings} />
         </Main>
       </Switch>
     </div>

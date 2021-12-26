@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import {
-  Card,
-  Col,
-  Row,
-  Button,
-  Form,
-  Input,
-  Upload,
-  message,
-} from "antd";
+import { Card, Col, Row, Button, Form, Input, Upload, message } from "antd";
 import { getUser, getToken } from "utils/common";
 import { SETTING_API, SELF_URL } from "helpers/url";
 import Loader from "react-loader-spinner";
@@ -33,6 +24,8 @@ const Settings = (props) => {
   const [footerSetting, setFooterSetting] = useState("");
   const [thumbSetting, setThumbSetting] = useState("");
   const [favSetting, setFavSetting] = useState("");
+  const [moneyExchangeUrlSetting, setMoneyExchangeUrlSetting] = useState("");
+  const [moneyExchangeKeySetting, setMoneyExchangeKeySetting] = useState("");
   const reactQuillSetting = ReactQuillToolbar();
 
   const formProps = {
@@ -42,7 +35,7 @@ const Settings = (props) => {
       Authorization: "Token " + getToken(),
     },
     data: {
-      type: "thumb"
+      type: "thumb",
     },
     listType: "picture",
     multiple: false,
@@ -77,7 +70,7 @@ const Settings = (props) => {
       Authorization: "Token " + getToken(),
     },
     data: {
-      type: "fav"
+      type: "fav",
     },
     listType: "picture",
     multiple: false,
@@ -132,7 +125,7 @@ const Settings = (props) => {
           );
         });
     } else window.location.href = SELF_URL.LOGIN;
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [update]);
 
   const setDataValue = (item, value) => {
@@ -151,6 +144,12 @@ const Settings = (props) => {
         break;
       case "fav_image":
         setFavSetting(value);
+        break;
+      case "money_exchange_domain":
+        setMoneyExchangeUrlSetting(value);
+        break;
+      case "money_exchange_key":
+        setMoneyExchangeKeySetting(value);
         break;
       default:
         break;
@@ -398,6 +397,105 @@ const Settings = (props) => {
               <br />
               <br />
             </Card>
+          </Card>
+          <br />
+          <Card title="Money Exchange Settings" bordered={false}>
+            <Form
+              name="basic"
+              onFinish={(value) => onFinish(value, "money_exchange_domain")}
+              onFinishFailed={() => onFinishFailed("money_exchange_domain")}
+              autoComplete="off"
+              fields={[
+                {
+                  name: ["money_exchange_domain"],
+                  value: moneyExchangeUrlSetting ? moneyExchangeUrlSetting : "",
+                }
+              ]}
+            >
+              <Card
+                type="inner"
+                bordered={false}
+                className="row-col setting-wrapper react-quill"
+              >
+                <Row>
+                  <Col md={18} lg={18} sm={24} xs={24}>
+                    <Form.Item
+                      label="URL"
+                      name="money_exchange_domain"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input money exchange URL!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col md={6} lg={6} sm={24} xs={24}>
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="ant-btn-sm ant-btn-setting"
+                      >
+                        Save
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <br />
+                <br />
+              </Card>
+            </Form>
+            <Form
+              name="basic"
+              onFinish={(value) => onFinish(value, "money_exchange_key")}
+              onFinishFailed={() => onFinishFailed("money_exchange_key")}
+              autoComplete="off"
+              fields={[
+                {
+                  name: ["money_exchange_key"],
+                  value: moneyExchangeKeySetting ? moneyExchangeKeySetting : "",
+                }
+              ]}
+            >
+              <Card
+                type="inner"
+                bordered={false}
+                className="row-col setting-wrapper react-quill"
+              >
+                <Row>
+                  <Col md={18} lg={18} sm={24} xs={24}>
+                    <Form.Item
+                      label="KEY"
+                      name="money_exchange_key"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input money exchange apikey!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col md={6} lg={6} sm={24} xs={24}>
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="ant-btn-sm ant-btn-setting"
+                      >
+                        Save
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <br />
+                <br />
+              </Card>
+            </Form>
           </Card>
         </Col>
       </Row>

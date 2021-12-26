@@ -17,6 +17,8 @@ import logo from "assets/images/logo.png";
 import photoIcon from "assets/images/photos.png";
 import photoSettingsIcon from "assets/images/photo-settings.png";
 import notesIcon from "assets/images/notes.png";
+import moneyIcon from "assets/images/money-bag.png";
+import settingsIcon from "assets/images/settings.png"
 import { getUser, removeUserSession } from "utils/common";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -59,6 +61,22 @@ function Sidenav({ color }) {
   const notesIconCp = [
     <img
       src={notesIcon}
+      style={{ width: "20px", height: "20px" }}
+      alt="This is thumb icon"
+    />,
+  ];
+
+  const moneyExchangeIcon = [
+    <img
+      src={moneyIcon}
+      style={{ width: "20px", height: "20px" }}
+      alt="This is thumb icon"
+    />,
+  ];
+
+  const settingsImgIcon = [
+    <img
+      src={settingsIcon}
       style={{ width: "20px", height: "20px" }}
       alt="This is thumb icon"
     />,
@@ -218,7 +236,7 @@ function Sidenav({ color }) {
           Implement Function
         </Menu.Item>
         <Menu.Item key={uuidv4()}>
-          <NavLink to="/photo">
+          <NavLink to={SELF_URL.PHOTO}>
             <span
               className="icon"
               style={{
@@ -231,7 +249,7 @@ function Sidenav({ color }) {
           </NavLink>
         </Menu.Item>
         <Menu.Item key={uuidv4()}>
-          <NavLink to="/notes">
+          <NavLink to={SELF_URL.NOTES}>
             <span
               className="icon"
               style={{
@@ -243,24 +261,37 @@ function Sidenav({ color }) {
             <span className="label">Notes</span>
           </NavLink>
         </Menu.Item>
+        <Menu.Item key={uuidv4()}>
+          <NavLink to={SELF_URL.MONEY_EXCHANGE}>
+            <span
+              className="icon"
+              style={{
+                background: page === "money-exchange" ? color : "",
+              }}
+            >
+              {moneyExchangeIcon}
+            </span>
+            <span className="label">Money Exchange</span>
+          </NavLink>
+        </Menu.Item>
         <Menu.Item className="menu-item-header" key={uuidv4()}>
           Setting Function
         </Menu.Item>
         <Menu.Item key={uuidv4()}>
-          <NavLink to="/general-settings">
+          <NavLink to={SELF_URL.GENERAL_SETTINGS}>
             <span
               className="icon"
               style={{
                 background: page === "general-settings" ? color : "",
               }}
             >
-              {photoSettings}
+              {settingsImgIcon}
             </span>
             <span className="label">General Settings</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item key={uuidv4()}>
-          <NavLink to="/photo-settings">
+          <NavLink to={SELF_URL.PHOTO_SETTINGS}>
             <span
               className="icon"
               style={{
@@ -280,7 +311,7 @@ function Sidenav({ color }) {
           Default Function
         </Menu.Item>
         <Menu.Item key={uuidv4()}>
-          <NavLink to="/dashboard">
+          <NavLink to={SELF_URL.DASHBOARD}>
             <span
               className="icon"
               style={{
