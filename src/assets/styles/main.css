@@ -3238,6 +3238,8 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   font-weight: bold;
   background-color: palevioletred;
   padding: 10px;
+  margin-left: auto;
+  margin-right: 20px;
 }
 .textNotice:hover {
   cursor: pointer;
@@ -3275,6 +3277,17 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
 .modalNote {
   width: 50%;
 }
+.resultMoneyExchange {
+  width: 100%;
+  text-align: center;
+  color: #ff572f;
+  font-weight: bold;
+  font-size: 40px;
+}
+.titleRatesHistorical {
+  color: #1c5ef7;
+  font-weight: bold;
+}
 
 @media (min-width: 601px) and (max-width: 1024px) {
   .my-gallery-class {
@@ -3289,6 +3302,14 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   }
   .my-gallery-class li img {
     width: 100%;
+  }
+  .moneyLineChart {
+    margin-top: 10px;
+    width: 100% !important;
+  }
+  .moneyExchangeBox {
+    margin-top: 10px;
+    width: 100% !important;
   }
 }
 
@@ -3313,5 +3334,13 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   .boxNoteReactQuill {
     height: 180px;
     margin-bottom: 80px;
+  }
+  .moneyLineChart {
+    margin-top: 10px;
+    width: 100% !important;
+  }
+  .moneyExchangeBox {
+    margin-top: 10px;
+    width: 100% !important;
   }
 }

@@ -30,6 +30,11 @@ export const NOTE_API = {
   DELETE_NOTES: API_URL + "/api/notes/",
 }
 
+export const MONEY_EXCHANGE = {
+  GET_EXCHANGE: API_URL + "/api/money-exchange/",
+  GET_RATES_HISTORICAL: API_URL + "/api/historical-exchange/",
+}
+
 export const SELF_URL = {
   LOGIN: "/sign-in",
   DASHBOARD: "/dashboard",
@@ -37,5 +42,9 @@ export const SELF_URL = {
   FOLDER_MANAGEMENT: "/folder-management",
   UPLOAD_PICTURE: "/upload-pictures",
   PHOTO_DETAIL: "/photo-details",
+  PHOTO_SETTINGS: "/photo-settings",
   GENERAL_SETTINGS: "/general-settings",
+  MONEY_EXCHANGE: "/money-exchange",
+  NOTES: "/notes",
+  PHOTO: "/photo",
 }
