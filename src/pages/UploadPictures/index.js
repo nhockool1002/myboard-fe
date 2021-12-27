@@ -302,7 +302,15 @@ const UploadPictures = (props) => {
                         />
                       </div>
                       <SRLWrapper>
-                        {item.file_type === "image" ? (
+                        {item.file_type === "video" ? (
+                          <video
+                            style={{ width: "100%" }}
+                            className="imageItem"
+                          >
+                            <source src={item.url} type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        ) : (
                           <a href={item.url}>
                             <img
                               src={item.url}
@@ -311,14 +319,6 @@ const UploadPictures = (props) => {
                               alt="item data thumb"
                             />
                           </a>
-                        ) : (
-                          <video
-                            style={{ width: "100%" }}
-                            className="imageItem"
-                          >
-                            <source src={item.url} type="video/mp4" />
-                            Your browser does not support the video tag.
-                          </video>
                         )}
                       </SRLWrapper>
                     </div>
