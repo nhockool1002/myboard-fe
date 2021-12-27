@@ -100,15 +100,24 @@ const PhotoDetail = (props) => {
             updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
             imagesLoadedOptions={imagesLoadedOptions} // default {}
           >
-            {mansoryImage.map((item) => (
-              <li className="image-element-class">
-                <img
-                  src={item.url ? item.url : ExamplePhoto}
-                  style={{ width: "420px" }}
-                  alt="this is thumbs"
-                />
-              </li>
-            ))}
+            {mansoryImage.map((item) =>
+              item.file_type === "video" ? (
+                <li className="image-element-class">
+                  <video style={{ width: "420px" }} controls>
+                    <source src={item.url} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </li>
+              ) : (
+                <li className="image-element-class">
+                  <img
+                    src={item.url ? item.url : ExamplePhoto}
+                    style={{ width: "420px" }}
+                    alt="this is thumbs"
+                  />
+                </li>
+              )
+            )}
           </Masonry>
         )}
       </SRLWrapper>

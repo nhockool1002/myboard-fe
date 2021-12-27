@@ -214,7 +214,7 @@ const UploadPictures = (props) => {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
-    accept: ".jpg,.jpeg,.png",
+    accept: ".jpg,.jpeg,.png,.mp4,.mov",
     progress: {
       width: "90%",
       strokeColor: {
@@ -302,14 +302,24 @@ const UploadPictures = (props) => {
                         />
                       </div>
                       <SRLWrapper>
-                        <a href={item.url}>
-                          <img
-                            src={item.url}
+                        {item.file_type === "video" ? (
+                          <video
                             style={{ width: "100%" }}
                             className="imageItem"
-                            alt="item data thumb"
-                          />
-                        </a>
+                          >
+                            <source src={item.url} type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        ) : (
+                          <a href={item.url}>
+                            <img
+                              src={item.url}
+                              style={{ width: "100%" }}
+                              className="imageItem"
+                              alt="item data thumb"
+                            />
+                          </a>
+                        )}
                       </SRLWrapper>
                     </div>
                   </Col>
