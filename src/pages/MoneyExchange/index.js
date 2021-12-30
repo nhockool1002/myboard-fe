@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import ListCurrencies from "utils/currencies.json";
-import { Row, Col, Select, Card, Button, InputNumber, DatePicker } from "antd";
+import { Row, Col, Select, Card, Button, InputNumber, DatePicker, Tag } from "antd";
 import { getUser, getToken } from "utils/common";
 import { SELF_URL, MONEY_EXCHANGE } from "helpers/url";
 import CompareIcon from "assets/images/compare.png";
@@ -135,6 +135,22 @@ const MoneyExchange = (props) => {
     setIsLoading(false);
   };
 
+  const handleSetByFastPopular = (value) => {
+    if (value !== desCurrency) {
+      setBaseCurrency(value);
+      setUpdate(uuidv4());
+    } else {
+      setAlert(
+        <ShowSweetAlert
+          type="danger"
+          title="Error"
+          message="BASE MONEY AND DES MONEY AS SAME"
+          onClick={handleClickAlert}
+        ></ShowSweetAlert>
+      );
+    }
+  }
+
   useEffect(() => {
     const listData = [];
     Object.keys(ListCurrencies).forEach(function (key) {
@@ -254,6 +270,16 @@ const MoneyExchange = (props) => {
             style={{ width: "95%" }}
             className="moneyExchangeBox"
           >
+            <Row>
+            <Col md={24} xs={24} lg={24} sm={24}>
+              <Tag color="magenta" onClick={() => handleSetByFastPopular("USD")}>USD</Tag>
+              <Tag color="red" onClick={() => handleSetByFastPopular("EUR")}>EUR</Tag>
+              <Tag color="cyan" onClick={() => handleSetByFastPopular("GBP")}>GBP</Tag>
+              <Tag color="green" onClick={() => handleSetByFastPopular("AUD")}>AUD</Tag>
+              <Tag color="orange" onClick={() => handleSetByFastPopular("VND")}>VND</Tag>
+              <br /><br />
+            </Col>
+            </Row>
             <Row>
               <Col md={10} xs={24} lg={10} sm={24}>
                 {listKeyCurrencies && (
