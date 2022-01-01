@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from "uuid";
 import { ShowSweetAlert, dateFormat } from "utils/common";
 import ExamplePhoto from "assets/images/example.png";
 
-
 const Photo = (props) => {
   const { Title } = Typography;
   const { Option } = Select;
@@ -159,11 +158,18 @@ const Photo = (props) => {
                 <div className="number">
                   <Row align="middle" gutter={[24, 0]}>
                     <Col xs={24}>
-                      <img
-                        src={item.image_thumb ? item.image_thumb : ExamplePhoto}
-                        style={{ width: "100%", height: "auto" }}
-                        alt="this is thumbs"
-                      />
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "200px",
+                          backgroundImage: item.image_thumb
+                            ? `url(${item.image_thumb})`
+                            : `url(${ExamplePhoto})`,
+                          backgroundPosition: "center center",
+                          backgroundSize: "cover",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      ></div>
                       <Title level={4}>
                         {item.folder_name ? item.folder_name : ""}
                       </Title>

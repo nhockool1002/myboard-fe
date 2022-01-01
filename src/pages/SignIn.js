@@ -146,7 +146,7 @@ function SignIn() {
       .then((response) => {
         setLoading(false);
         setUserSession(response.data.token, response.data.user);
-        history.push("/dashboard");
+        history.push("/");
       })
       .catch((error) => {
         if (error.response.status === 400) {
