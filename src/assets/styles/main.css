@@ -3303,6 +3303,9 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   .my-gallery-class li img {
     width: 100%;
   }
+  .my-gallery-class li video {
+    width: 100%;
+  }
   .moneyLineChart {
     margin-top: 10px;
     width: 100% !important;
@@ -3326,6 +3329,9 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
     top: 0 !important;
   }
   .my-gallery-class li img {
+    width: 100% !important;
+  }
+  .my-gallery-class li video {
     width: 100% !important;
   }
   .boxNotes {
