@@ -18,7 +18,7 @@ import photoIcon from "assets/images/photos.png";
 import photoSettingsIcon from "assets/images/photo-settings.png";
 import notesIcon from "assets/images/notes.png";
 import moneyIcon from "assets/images/money-bag.png";
-import settingsIcon from "assets/images/settings.png"
+import settingsIcon from "assets/images/settings.png";
 import { getUser, removeUserSession } from "utils/common";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -81,7 +81,6 @@ function Sidenav({ color }) {
       alt="This is thumb icon"
     />,
   ];
-
 
   const dashboard = [
     <svg
@@ -228,7 +227,7 @@ function Sidenav({ color }) {
     <>
       <div className="brand">
         <img src={logo} alt="" />
-        <span style={{ color: "red" }}>MyBoard PROJECT</span>
+        <span style={{ color: "red" }}>MYBOARD PROJECT</span>
       </div>
       <hr />
       <Menu theme="light" mode="inline">
@@ -245,7 +244,7 @@ function Sidenav({ color }) {
             >
               {photo}
             </span>
-            <span className="label">Photo</span>
+            <span className="label">Photo Memories</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item key={uuidv4()}>
@@ -258,7 +257,7 @@ function Sidenav({ color }) {
             >
               {notesIconCp}
             </span>
-            <span className="label">Notes</span>
+            <span className="label">Notes Job</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item key={uuidv4()}>
