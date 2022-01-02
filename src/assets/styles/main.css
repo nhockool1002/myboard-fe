@@ -3292,6 +3292,39 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   color: #1c5ef7;
   font-weight: bold;
 }
+.customer-dropdown {
+  margin: 0 0 0 0 !important;
+  padding: 10px 20px !important;
+}
+.menuMyboard .ant-menu-submenu-title {
+  padding-left: unset !important;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 16px;
+  color: #db7092;
+}
+.menuMyboard .ant-menu-item-group-title {
+  padding-left: unset !important;
+  margin: 0;
+  padding: 0;
+  color:rgb(84, 124, 25);
+  font-size: 17px;
+  font-weight: bolder;
+}
+
+.menuMyboard .menuListItem ul li span {
+  font-weight: 200;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.menuMyboard .menuListItem ul li span a {
+  padding: 2px 0px !important;
+}
+.logout-button {
+  margin-top: 15px;
+}
 
 @media (min-width: 601px) and (max-width: 1024px) {
   .my-gallery-class {
