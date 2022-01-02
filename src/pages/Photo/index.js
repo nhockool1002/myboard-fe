@@ -173,8 +173,8 @@ const Photo = (props) => {
                       <Title level={4}>
                         {item.folder_name ? item.folder_name : ""}
                       </Title>
-                      <div className="bnb2">
-                        {item.created_at ? dateFormat(item.created_at) : ""}
+                      <div className="bnb85">
+                        💖 {item.created_at ? dateFormat(item.created_at) : ""}
                       </div>
                     </Col>
                   </Row>
