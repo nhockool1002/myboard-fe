@@ -69,7 +69,7 @@ function Main({ children }) {
             trigger={null}
             width={250}
             theme="light"
-            className={`sider-primary ant-layout-sider-primary ${
+            className={`sider-primary ant-layout-sider-primary customer-dropdown ${
               sidenavType === "#fff" ? "active-route" : ""
             }`}
             style={{ background: sidenavType }}
@@ -87,7 +87,7 @@ function Main({ children }) {
         trigger={null}
         width={250}
         theme="light"
-        className={`sider-primary ant-layout-sider-primary ${
+        className={`sider-primary ant-layout-sider-primary customer-dropdown ${
           sidenavType === "#fff" ? "active-route" : ""
         }`}
         style={{ background: sidenavType }}

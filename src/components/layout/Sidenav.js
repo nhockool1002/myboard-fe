@@ -25,12 +25,18 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { SELF_URL } from "helpers/url";
 import { v4 as uuidv4 } from "uuid";
+import {
+  LockOutlined,
+  NodeIndexOutlined,
+  InsertRowBelowOutlined,
+} from "@ant-design/icons";
 
 function Sidenav({ color }) {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
   const [logged, setLogged] = useState(false);
   const history = useHistory();
+  const { SubMenu } = Menu;
 
   useEffect(() => {
     const user = getUser();
@@ -203,34 +209,34 @@ function Sidenav({ color }) {
     </svg>,
   ];
 
-  const signup = [
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
-      key={uuidv4()}
-    >
-      <path
-        d="M0,2A2,2,0,0,1,2,0H8a2,2,0,0,1,2,2V8a2,2,0,0,1-2,2H2A2,2,0,0,1,0,8Z"
-        transform="translate(4 4)"
-        fill={color}
-      />
-      <path
-        d="M2,0A2,2,0,0,0,0,2V8a2,2,0,0,0,2,2V4A2,2,0,0,1,4,2h6A2,2,0,0,0,8,0Z"
-        fill={color}
-      />
-    </svg>,
-  ];
+  // const signup = [
+  //   <svg
+  //     xmlns="http://www.w3.org/2000/svg"
+  //     width="14"
+  //     height="14"
+  //     viewBox="0 0 14 14"
+  //     key={uuidv4()}
+  //   >
+  //     <path
+  //       d="M0,2A2,2,0,0,1,2,0H8a2,2,0,0,1,2,2V8a2,2,0,0,1-2,2H2A2,2,0,0,1,0,8Z"
+  //       transform="translate(4 4)"
+  //       fill={color}
+  //     />
+  //     <path
+  //       d="M2,0A2,2,0,0,0,0,2V8a2,2,0,0,0,2,2V4A2,2,0,0,1,4,2h6A2,2,0,0,0,8,0Z"
+  //       fill={color}
+  //     />
+  //   </svg>,
+  // ];
 
   return (
     <>
-      <div className="brand">
+      <div className="brand" onClick={() => history.push("/")}>
         <img src={logo} alt="" />
-        <span style={{ color: "red" }}>MYBOARD PROJECT</span>
+        <span style={{ color: "#db7092" }}>MYBOARD PROJECT</span>
       </div>
       <hr />
-      <Menu theme="light" mode="inline">
+      {/* <Menu theme="light" mode="inline">
         <Menu.Item className="menu-item-header" key={uuidv4()}>
           Implement Function
         </Menu.Item>
@@ -401,7 +407,213 @@ function Sidenav({ color }) {
             LOGOUT
           </Button>
         )}
-      </Menu>
+      </Menu> */}
+      <div className="menuMyBoardWrapper">
+        <Menu mode="inline" className="menuMyboard">
+          {/* <SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
+            <Menu.ItemGroup key="g1" title="Item 1">
+              <Menu.Item key="1">Option 1</Menu.Item>
+              <Menu.Item key="2">Option 2</Menu.Item>
+            </Menu.ItemGroup>
+            <Menu.ItemGroup key="g2" title="Item 2">
+              <Menu.Item key="3">Option 3</Menu.Item>
+              <Menu.Item key="4">Option 4</Menu.Item>
+            </Menu.ItemGroup>
+          </SubMenu>
+          <SubMenu
+            key="sub2"
+            icon={<AppstoreOutlined />}
+            title="Navigation Two"
+          >
+            <Menu.Item key="5">Option 5</Menu.Item>
+            <Menu.Item key="6">Option 6</Menu.Item>
+            <SubMenu key="sub3" title="Submenu">
+              <Menu.Item key="7">Option 7</Menu.Item>
+              <Menu.Item key="8">Option 8</Menu.Item>
+            </SubMenu>
+          </SubMenu> */}
+          <SubMenu
+            key={uuidv4()}
+            icon={<NodeIndexOutlined />}
+            title="Internal Function"
+            className="menuListItem"
+          >
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.PHOTO}>
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "photo" ? color : "",
+                  }}
+                >
+                  {photo}
+                </span>
+                <span className="label">Photo Memories</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.NOTES}>
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "notes" ? color : "",
+                  }}
+                >
+                  {notesIconCp}
+                </span>
+                <span className="label">My Notes</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.MONEY_EXCHANGE}>
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "money-exchange" ? color : "",
+                  }}
+                >
+                  {moneyExchangeIcon}
+                </span>
+                <span className="label">Money Exchange</span>
+              </NavLink>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu
+            key={uuidv4()}
+            icon={<LockOutlined />}
+            title="Private Settings"
+            className="menuListItem"
+          >
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.GENERAL_SETTINGS}>
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "general-settings" ? color : "",
+                  }}
+                >
+                  {settingsImgIcon}
+                </span>
+                <span className="label">General Settings</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.PHOTO_SETTINGS}>
+                <span
+                  className="icon"
+                  style={{
+                    background: [
+                      "photo-settings",
+                      "bucket-management",
+                    ].includes(page)
+                      ? color
+                      : "",
+                  }}
+                >
+                  {photoSettings}
+                </span>
+                <span className="label">Photo Settings</span>
+              </NavLink>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu
+            key={uuidv4()}
+            icon={<InsertRowBelowOutlined />}
+            title="Example Page"
+            className="menuListItem"
+          >
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.DASHBOARD}>
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "dashboard" ? { color } : "",
+                  }}
+                >
+                  {dashboard}
+                </span>
+                <span className="label">Dashboard</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to="/tables">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "tables" ? color : "",
+                  }}
+                >
+                  {tables}
+                </span>
+                <span className="label">Tables</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to="/billing">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "billing" ? color : "",
+                  }}
+                >
+                  {billing}
+                </span>
+                <span className="label">Billing</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to="/rtl">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "rtl" ? color : "",
+                  }}
+                >
+                  {rtl}
+                </span>
+                <span className="label">RTL</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+                <NavLink to="/profile">
+                  <span
+                    className="icon"
+                    style={{
+                      background: page === "profile" ? color : "",
+                    }}
+                  >
+                    {profile}
+                  </span>
+                  <span className="label">Profile</span>
+                </NavLink>
+              </Menu.Item>
+          </SubMenu>
+          {!logged ? (
+            <>
+              <Menu.Item key={uuidv4()}>
+                <NavLink to="/sign-in">
+                  <span className="icon">{signin}</span>
+                  <span className="label">Sign In</span>
+                </NavLink>
+              </Menu.Item>
+              {/* <Menu.Item key={uuidv4()}>
+                <NavLink to="/sign-up">
+                  <span className="icon">{signup}</span>
+                  <span className="label">Sign Up</span>
+                </NavLink>
+              </Menu.Item> */}
+            </>
+          ) : (
+            <Button
+              type="danger"
+              className="ant-btn-sm ant-btn-block logout-button"
+              onClick={handleLogout}
+            >
+              LOGOUT
+            </Button>
+          )}
+        </Menu>
+      </div>
       <div className="aside-footer">
         <div
           className="footer-box"
