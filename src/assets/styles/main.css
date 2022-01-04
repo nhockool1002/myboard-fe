@@ -172,7 +172,8 @@ body {
   .ant-menu-item
   .active
   .icon {
-  background-color: #1890ff;
+  /* background-color: #1890ff; */
+  background-color: unset;
 }
 .layout-dashboard
   .ant-layout-sider.sider-primary

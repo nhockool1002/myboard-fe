@@ -35,6 +35,10 @@ export const MONEY_EXCHANGE = {
   GET_RATES_HISTORICAL: API_URL + "/api/historical-exchange/",
 }
 
+export const EX_CATEGORIES = {
+  REST: API_URL + "/api/ex-categories/",
+}
+
 export const SELF_URL = {
   LOGIN: "/sign-in",
   DASHBOARD: "/dashboard",
@@ -47,4 +51,5 @@ export const SELF_URL = {
   MONEY_EXCHANGE: "/money-exchange",
   NOTES: "/notes",
   PHOTO: "/photo",
+  CATEGORIES: "/categories"
 }
