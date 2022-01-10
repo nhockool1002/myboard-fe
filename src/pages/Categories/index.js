@@ -8,6 +8,7 @@ import {
   Input,
   Card,
   InputNumber,
+  Modal,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { EX_CATEGORIES, SELF_URL } from "helpers/url";
@@ -27,10 +28,79 @@ const Categories = (props) => {
   const [checkedSticky, setCheckedSticky] = useState(false);
   const [slugCat, setSlugCat] = useState("");
   const [categoryName, setCategoryName] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editCatName, setEditCatName] = useState("");
+  const [editCatSlug, setEditCatSlug] = useState("");
+  const [editCatId, setEditCatId] = useState("");
+  const [editCatOrder, setEditCatOrder] = useState(0);
 
   const handleClickAlert = () => {
     setAlert(null);
     setIsLoading(false);
+  };
+
+  const showModal = (item) => {
+    setIsModalVisible(true);
+    setEditCatName(item.category_name);
+    setEditCatSlug(item.category_slug);
+    setEditCatId(item.id);
+    setEditCatOrder(item.order);
+  };
+
+  const handleOk = () => {
+    const user = getUser();
+    if (user !== null) {
+      setIsLoading(true);
+      axios
+        .patch(
+          EX_CATEGORIES.REST + editCatId,
+          {
+            category_name: editCatName,
+            category_slug: convertToSlug(editCatSlug),
+            order: editCatOrder,
+          },
+          {
+            headers: { Authorization: "Token " + getToken() },
+          }
+        )
+        .then((res) => {
+          const message = `Update [${res.data?.data?.category_name}] success`;
+          setIsLoading(false);
+          setUpdate(uuidv4());
+          setIsModalVisible(false);
+          setEditCatSlug("");
+          setEditCatName("");
+          setEditCatId("");
+          setEditCatOrder("");
+          setAlert(
+            <ShowSweetAlert
+              type="success"
+              title="Success"
+              message={message}
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setAlert(
+            <ShowSweetAlert
+              type="danger"
+              title="Error"
+              message={error.response.data.message}
+              onClick={handleClickAlert}
+            ></ShowSweetAlert>
+          );
+        });
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setEditCatSlug("");
+    setEditCatName("");
+    setEditCatId("");
+    setEditCatOrder("");
   };
 
   const handleConfirmDeleteCat = (id, name) => {
@@ -108,7 +178,7 @@ const Categories = (props) => {
           setIsLoading(false);
           setUpdate(uuidv4());
           setCheckedSticky(false);
-          setSlugCat(convertToSlug(slugCat))
+          setSlugCat(convertToSlug(slugCat));
           setAlert(
             <ShowSweetAlert
               type="success"
@@ -163,7 +233,7 @@ const Categories = (props) => {
           setAlert(
             <ShowSweetAlert
               type="success"
-              title="Error"
+              title="Success"
               message={message}
               onClick={handleClickAlert}
             ></ShowSweetAlert>
@@ -223,13 +293,24 @@ const Categories = (props) => {
       dataIndex: "remove_cat",
       key: "remove_cat",
       render: (item) => (
-        <Button
-          type="danger"
-          className="ant-btn-sm ant-btn-block"
-          onClick={() => handleConfirmDeleteCat(item.id, item.category_name)}
-        >
-          Delete
-        </Button>
+        <>
+          <Button
+            type="primary"
+            className="ant-btn-sm ant-btn-block"
+            style={{ width: "80px", marginRight: "10px" }}
+            onClick={() => showModal(item)}
+          >
+            Edit
+          </Button>
+          <Button
+            type="danger"
+            className="ant-btn-sm ant-btn-block"
+            style={{ width: "80px" }}
+            onClick={() => handleConfirmDeleteCat(item.id, item.category_name)}
+          >
+            Delete
+          </Button>
+        </>
       ),
     },
   ];
@@ -284,6 +365,37 @@ const Categories = (props) => {
           />
         </div>
       )}
+      <Modal
+        title="Edit Category"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <h5>Category Name</h5>
+        <Input
+          placeholder="Category Name"
+          onChange={(e) => setEditCatName(e.target.value)}
+          value={editCatName ? editCatName : ""}
+        />
+        <br />
+        <br />
+        <h5>Category Slug</h5>
+        <Input
+          placeholder="Category Slug"
+          onChange={(e) => setEditCatSlug(e.target.value)}
+          value={editCatSlug ? editCatSlug : ""}
+        />
+        <br />
+        <br />
+        <h5>Category Order</h5>
+        <InputNumber
+          placeholder="Category Order"
+          onChange={setEditCatOrder}
+          style={{ width: "100%" }}
+          min={0}
+          value={editCatOrder}
+        />
+      </Modal>
       <Row>
         <Col lg={12} md={12} xs={24} sm={24}>
           <Table
