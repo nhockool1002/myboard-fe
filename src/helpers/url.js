@@ -39,6 +39,10 @@ export const EX_CATEGORIES = {
   REST: API_URL + "/api/ex-categories/",
 }
 
+export const EX_LABELS = {
+  REST: API_URL + "/api/ex-labels/",
+}
+
 export const SELF_URL = {
   LOGIN: "/sign-in",
   DASHBOARD: "/dashboard",
@@ -51,5 +55,6 @@ export const SELF_URL = {
   MONEY_EXCHANGE: "/money-exchange",
   NOTES: "/notes",
   PHOTO: "/photo",
-  CATEGORIES: "/categories"
+  CATEGORIES: "/categories",
+  LABELS: "/labels"
 }

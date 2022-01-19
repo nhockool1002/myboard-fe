@@ -19,7 +19,8 @@ import photoSettingsIcon from "assets/images/photo-settings.png";
 import notesIcon from "assets/images/notes.png";
 import moneyIcon from "assets/images/money-bag.png";
 import settingsIcon from "assets/images/settings.png";
-import categoriesIcon from "assets/images/categories.png"
+import categoriesIcon from "assets/images/categories.png";
+import labelsIcon from "assets/images/labels.png"
 import { getUser, removeUserSession } from "utils/common";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -98,6 +99,13 @@ function Sidenav({ color }) {
     />,
   ];
 
+  const labelsImgIcon = [
+    <img
+      src={labelsIcon}
+      style={{ width: "20px", height: "20px" }}
+      alt="This is thumb icon"
+    />,
+  ];
 
   const dashboard = [
     <svg
@@ -462,6 +470,19 @@ function Sidenav({ color }) {
                 <span className="label">Categories Setting</span>
               </NavLink>
             </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.LABELS}>
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "labels" ? color : "",
+                  }}
+                >
+                  {labelsImgIcon}
+                </span>
+                <span className="label">Labels Setting</span>
+              </NavLink>
+            </Menu.Item>
           </SubMenu>
           <SubMenu
             key={uuidv4()}
@@ -606,18 +627,18 @@ function Sidenav({ color }) {
               </NavLink>
             </Menu.Item>
             <Menu.Item key={uuidv4()}>
-                <NavLink to="/profile">
-                  <span
-                    className="icon"
-                    style={{
-                      background: page === "profile" ? color : "",
-                    }}
-                  >
-                    {profile}
-                  </span>
-                  <span className="label">Profile</span>
-                </NavLink>
-              </Menu.Item>
+              <NavLink to="/profile">
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "profile" ? color : "",
+                  }}
+                >
+                  {profile}
+                </span>
+                <span className="label">Profile</span>
+              </NavLink>
+            </Menu.Item>
           </SubMenu>
           {!logged ? (
             <>
