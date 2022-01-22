@@ -467,7 +467,7 @@ function Sidenav({ color }) {
                 >
                   {categoriesImgIcon}
                 </span>
-                <span className="label">Categories Setting</span>
+                <span className="label">Categories Manage</span>
               </NavLink>
             </Menu.Item>
             <Menu.Item key={uuidv4()}>
@@ -480,7 +480,7 @@ function Sidenav({ color }) {
                 >
                   {labelsImgIcon}
                 </span>
-                <span className="label">Labels Setting</span>
+                <span className="label">Labels Manage</span>
               </NavLink>
             </Menu.Item>
           </SubMenu>

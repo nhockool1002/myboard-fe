@@ -46,9 +46,10 @@ const Labels = (props) => {
       setLabelTypeValue(1);
     } else if (value === "source") {
       setLabelTypeValue(2);
+    } else if (value === "project") {
+      setLabelTypeValue(3);
     }
     setLabelType(value);
-    console.log(`selected ${value}`);
   };
 
   const showModal = (item) => {
@@ -60,6 +61,8 @@ const Labels = (props) => {
       setEditLabelTypeValue("post");
     } else if (item.label_type === 2) {
       setEditLabelTypeValue("source");
+    } else if (item.label_type === 3) {
+      setEditLabelTypeValue("project");
     }
   };
 
@@ -68,9 +71,23 @@ const Labels = (props) => {
       setEditLabelType(1);
     } else if (value === "source") {
       setEditLabelType(2);
+    } else if (value === "project") {
+      setEditLabelType(3);
     }
     setEditLabelTypeValue(value);
   };
+
+  const renderNameLabelType = (value) => {
+    if (value === 1) {
+      return "POST"
+    } else if (value === 2) {
+      return "SOURCE"
+    } else if (value ===3) {
+      return "PROJECT"
+    } else {
+      return ""
+    }
+  }
 
   const handleOk = () => {
     const user = getUser();
@@ -247,6 +264,15 @@ const Labels = (props) => {
       render: (text) => <span>{text}</span>,
     },
     {
+      title: "Label Type",
+      dataIndex: "label_type",
+      key: "label_type ",
+      render: (text) => <span>{renderNameLabelType(text)}</span>,
+      sorter: {
+        compare: (a, b) => a.label_type - b.label_type,
+      },
+    },
+    {
       title: "Option",
       dataIndex: "remove_cat",
       key: "remove_cat",
@@ -289,6 +315,7 @@ const Labels = (props) => {
             newObj.label_name = item.label_name;
             newObj.label_slug = item.label_slug;
             newObj.remove_cat = item;
+            newObj.label_type = item.label_type;
             return dataCat.push(newObj);
           });
           setData(dataCat);
@@ -352,6 +379,7 @@ const Labels = (props) => {
         >
           <Option value="post">Post</Option>
           <Option value="source">Source</Option>
+          <Option value="project">Project</Option>
         </Select>
       </Modal>
       <Row>
@@ -430,6 +458,7 @@ const Labels = (props) => {
               >
                 <Option value="post">Post</Option>
                 <Option value="source">Source</Option>
+                <Option value="project">Project</Option>
               </Select>
 
               <br />
