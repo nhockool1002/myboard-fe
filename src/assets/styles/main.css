@@ -3129,6 +3129,7 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 2;
 }
 .deleteButton img {
   width: 40px;
