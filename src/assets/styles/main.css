@@ -3318,6 +3318,7 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   font-weight: 200;
   font-size: 14px;
   display: inline-block;
+  width: 100%;
 }
 
 .menuMyboard .menuListItem ul li span a {

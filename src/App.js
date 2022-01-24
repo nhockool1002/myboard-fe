@@ -35,6 +35,7 @@ import Settings from "pages/Settings";
 import Notes from "pages/Notes";
 import MoneyExchange from "pages/MoneyExchange";
 import Categories from "pages/Categories";
+import Labels from "pages/Labels";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // import { getUser, getToken } from "utils/common";
@@ -139,6 +140,7 @@ function App() {
           <PrivateRoute exact path={SELF_URL.NOTES} component={Notes} />
           <PrivateRoute exact path={SELF_URL.MONEY_EXCHANGE} component={MoneyExchange} />
           <PrivateRoute exact path={SELF_URL.CATEGORIES} component={Categories} />
+          <PrivateRoute exact path={SELF_URL.LABELS} component={Labels} />
           <PrivateRoute
             exact
             path={SELF_URL.PHOTO_SETTINGS}

@@ -2,16 +2,15 @@ import {
   Button,
   Col,
   Row,
-  Switch,
+  Select,
   Table,
   Form,
   Input,
   Card,
-  InputNumber,
   Modal,
 } from "antd";
 import React, { useEffect, useState } from "react";
-import { EX_CATEGORIES, SELF_URL } from "helpers/url";
+import { EX_LABELS, SELF_URL } from "helpers/url";
 import Loader from "react-loader-spinner";
 import axios from "axios";
 import { getUser, getToken, convertToSlug } from "utils/common";
@@ -20,32 +19,75 @@ import { v4 as uuidv4 } from "uuid";
 import SweetAlert from "react-bootstrap-sweetalert";
 import S3CreateBucket from "assets/images/world.png";
 
-const Categories = (props) => {
+const Labels = (props) => {
   const [loading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const [data, setData] = useState([]);
   const [update, setUpdate] = useState("");
-  const [checkedSticky, setCheckedSticky] = useState(false);
   const [slugCat, setSlugCat] = useState("");
-  const [categoryName, setCategoryName] = useState("");
+  const [labelName, setLabelName] = useState("");
+  const [labelType, setLabelType] = useState("post");
+  const [labelTypeValue, setLabelTypeValue] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [editCatName, setEditCatName] = useState("");
-  const [editCatSlug, setEditCatSlug] = useState("");
-  const [editCatId, setEditCatId] = useState("");
-  const [editCatOrder, setEditCatOrder] = useState(0);
+  const [editLabelName, setEditLabelName] = useState("");
+  const [editLabelSlug, setEditLabelSlug] = useState("");
+  const [editLabelType, setEditLabelType] = useState(0);
+  const [editLabelTypeValue, setEditLabelTypeValue] = useState("");
+  const [editLabeld, setEditLabelId] = useState("");
+  const { Option } = Select;
 
   const handleClickAlert = () => {
     setAlert(null);
     setIsLoading(false);
   };
 
+  const handleChange = (value) => {
+    if (value === "post") {
+      setLabelTypeValue(1);
+    } else if (value === "source") {
+      setLabelTypeValue(2);
+    } else if (value === "project") {
+      setLabelTypeValue(3);
+    }
+    setLabelType(value);
+  };
+
   const showModal = (item) => {
     setIsModalVisible(true);
-    setEditCatName(item.category_name);
-    setEditCatSlug(item.category_slug);
-    setEditCatId(item.id);
-    setEditCatOrder(item.order);
+    setEditLabelName(item.label_name);
+    setEditLabelSlug(item.label_slug);
+    setEditLabelId(item.id);
+    if (item.label_type === 1) {
+      setEditLabelTypeValue("post");
+    } else if (item.label_type === 2) {
+      setEditLabelTypeValue("source");
+    } else if (item.label_type === 3) {
+      setEditLabelTypeValue("project");
+    }
   };
+
+  const handleChangeEditLabel = (value) => {
+    if (value === "post") {
+      setEditLabelType(1);
+    } else if (value === "source") {
+      setEditLabelType(2);
+    } else if (value === "project") {
+      setEditLabelType(3);
+    }
+    setEditLabelTypeValue(value);
+  };
+
+  const renderNameLabelType = (value) => {
+    if (value === 1) {
+      return "POST"
+    } else if (value === 2) {
+      return "SOURCE"
+    } else if (value ===3) {
+      return "PROJECT"
+    } else {
+      return ""
+    }
+  }
 
   const handleOk = () => {
     const user = getUser();
@@ -53,25 +95,24 @@ const Categories = (props) => {
       setIsLoading(true);
       axios
         .patch(
-          EX_CATEGORIES.REST + editCatId,
+          EX_LABELS.REST + editLabeld,
           {
-            category_name: editCatName,
-            category_slug: convertToSlug(editCatSlug),
-            order: editCatOrder,
+            label_name: editLabelName,
+            label_slug: convertToSlug(editLabelSlug),
+            label_type: editLabelType,
           },
           {
             headers: { Authorization: "Token " + getToken() },
           }
         )
         .then((res) => {
-          const message = `Update [${res.data?.data?.category_name}] success`;
+          const message = `Update [${res.data?.data?.label_name}] success`;
           setIsLoading(false);
           setUpdate(uuidv4());
           setIsModalVisible(false);
-          setEditCatSlug("");
-          setEditCatName("");
-          setEditCatId("");
-          setEditCatOrder("");
+          setEditLabelSlug("");
+          setEditLabelName("");
+          setEditLabelId("");
           setAlert(
             <ShowSweetAlert
               type="success"
@@ -97,14 +138,13 @@ const Categories = (props) => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
-    setEditCatSlug("");
-    setEditCatName("");
-    setEditCatId("");
-    setEditCatOrder("");
+    setEditLabelSlug("");
+    setEditLabelName("");
+    setEditLabelId("");
   };
 
-  const handleConfirmDeleteCat = (id, name) => {
-    const message = `Are you sure delete ${name} Category ?`;
+  const handleConfirmDeleteLabel = (id, name) => {
+    const message = `Are you sure delete ${name} Label ?`;
     setAlert(
       <SweetAlert
         warning
@@ -112,22 +152,22 @@ const Categories = (props) => {
         confirmBtnText="Yes, delete it!"
         confirmBtnBsStyle="danger"
         title={message}
-        onConfirm={() => handleDeleteCat(id)}
+        onConfirm={() => handleDeleteLabel(id)}
         onCancel={() => setAlert(null)}
         focusCancelBtn
         closeOnClickOutside={false}
       >
-        This category will be permanently deleted !
+        This label will be permanently deleted !
       </SweetAlert>
     );
   };
 
-  const handleDeleteCat = (id) => {
+  const handleDeleteLabel = (id) => {
     const user = getUser();
     setIsLoading(true);
     if (user !== null) {
       axios
-        .delete(EX_CATEGORIES.REST + id, {
+        .delete(EX_LABELS.REST + id, {
           headers: { Authorization: "Token " + getToken() },
         })
         .then((res) => {
@@ -137,7 +177,7 @@ const Categories = (props) => {
             <ShowSweetAlert
               type="success"
               title="Success"
-              message="DELETE CATEGORY SUCCESS"
+              message="DELETE LABEL SUCCESS"
               onClick={handleClickAlert}
             ></ShowSweetAlert>
           );
@@ -162,22 +202,20 @@ const Categories = (props) => {
       setIsLoading(true);
       axios
         .post(
-          EX_CATEGORIES.REST,
+          EX_LABELS.REST,
           {
-            cat_name: values.category_name,
-            cat_slug: convertToSlug(slugCat),
-            order: values.order,
-            sticky: checkedSticky,
+            label_name: values.label_name,
+            label_slug: convertToSlug(slugCat),
+            label_type: labelTypeValue,
           },
           {
             headers: { Authorization: "Token " + getToken() },
           }
         )
         .then((res) => {
-          const message = `Create [${values.category_name}] success`;
+          const message = `Create [${values.label_name}] success`;
           setIsLoading(false);
           setUpdate(uuidv4());
-          setCheckedSticky(false);
           setSlugCat(convertToSlug(slugCat));
           setAlert(
             <ShowSweetAlert
@@ -207,89 +245,35 @@ const Categories = (props) => {
   };
 
   const handleSetSlug = () => {
-    if (categoryName) {
-      setSlugCat(convertToSlug(categoryName));
-    }
-  };
-
-  const handleUpdateSticky = (value) => {
-    const user = getUser();
-    if (user !== null) {
-      setIsLoading(true);
-      axios
-        .patch(
-          EX_CATEGORIES.REST + value.id,
-          {
-            sticky: !value.sticky,
-          },
-          {
-            headers: { Authorization: "Token " + getToken() },
-          }
-        )
-        .then((res) => {
-          const message = `Update [${res.data?.data?.category_name}] sticky state success`;
-          setIsLoading(false);
-          setUpdate(uuidv4());
-          setAlert(
-            <ShowSweetAlert
-              type="success"
-              title="Success"
-              message={message}
-              onClick={handleClickAlert}
-            ></ShowSweetAlert>
-          );
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          setAlert(
-            <ShowSweetAlert
-              type="danger"
-              title="Error"
-              message={error.response.data.message}
-              onClick={handleClickAlert}
-            ></ShowSweetAlert>
-          );
-        });
+    if (labelName) {
+      setSlugCat(convertToSlug(labelName));
     }
   };
 
   const columns = [
     {
-      title: "Category Name",
-      dataIndex: "cat_name",
-      key: "cat_name",
+      title: "Label Name",
+      dataIndex: "label_name",
+      key: "label_name",
       render: (text) => <span>{text}</span>,
     },
     {
-      title: "Category Slug",
-      dataIndex: "cat_slug",
-      key: "cat_slug ",
+      title: "Label Slug",
+      dataIndex: "label_slug",
+      key: "label_slug ",
       render: (text) => <span>{text}</span>,
     },
     {
-      title: "Sticky",
-      dataIndex: "sticky",
-      key: "sticky ",
-      render: (sticky) => (
-        <Switch
-          checked={sticky.sticky}
-          onChange={() => handleUpdateSticky(sticky)}
-          checkedChildren="Sticky"
-          unCheckedChildren="None"
-        />
-      ),
-    },
-    {
-      title: "Order",
-      dataIndex: "order",
-      key: "order ",
-      render: (text) => <span>{text}</span>,
+      title: "Label Type",
+      dataIndex: "label_type",
+      key: "label_type ",
+      render: (text) => <span>{renderNameLabelType(text)}</span>,
       sorter: {
-        compare: (a, b) => a.order - b.order,
+        compare: (a, b) => a.label_type - b.label_type,
       },
     },
     {
-      title: "Remove",
+      title: "Option",
       dataIndex: "remove_cat",
       key: "remove_cat",
       render: (item) => (
@@ -306,7 +290,7 @@ const Categories = (props) => {
             type="danger"
             className="ant-btn-sm ant-btn-block"
             style={{ width: "80px" }}
-            onClick={() => handleConfirmDeleteCat(item.id, item.category_name)}
+            onClick={() => handleConfirmDeleteLabel(item.id, item.label_name)}
           >
             Delete
           </Button>
@@ -320,7 +304,7 @@ const Categories = (props) => {
     if (user !== null) {
       setIsLoading(true);
       axios
-        .get(EX_CATEGORIES.REST, {
+        .get(EX_LABELS.REST, {
           headers: { Authorization: "Token " + getToken() },
         })
         .then((res) => {
@@ -328,11 +312,10 @@ const Categories = (props) => {
           const dataCat = [];
           res.data?.data.map((item) => {
             const newObj = {};
-            newObj.cat_name = item.category_name;
-            newObj.cat_slug = item.category_slug;
-            newObj.order = item.order;
-            newObj.sticky = item;
+            newObj.label_name = item.label_name;
+            newObj.label_slug = item.label_slug;
             newObj.remove_cat = item;
+            newObj.label_type = item.label_type;
             return dataCat.push(newObj);
           });
           setData(dataCat);
@@ -366,35 +349,38 @@ const Categories = (props) => {
         </div>
       )}
       <Modal
-        title="Edit Category"
+        title="Edit Label"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <h5>Category Name</h5>
+        <h5>Label Name</h5>
         <Input
           placeholder="Category Name"
-          onChange={(e) => setEditCatName(e.target.value)}
-          value={editCatName ? editCatName : ""}
+          onChange={(e) => setEditLabelName(e.target.value)}
+          value={editLabelName ? editLabelName : ""}
         />
         <br />
         <br />
-        <h5>Category Slug</h5>
+        <h5>Label Slug</h5>
         <Input
           placeholder="Category Slug"
-          onChange={(e) => setEditCatSlug(e.target.value)}
-          value={editCatSlug ? editCatSlug : ""}
+          onChange={(e) => setEditLabelSlug(e.target.value)}
+          value={editLabelSlug ? editLabelSlug : ""}
         />
+
         <br />
         <br />
-        <h5>Category Order</h5>
-        <InputNumber
-          placeholder="Category Order"
-          onChange={setEditCatOrder}
+
+        <Select
           style={{ width: "100%" }}
-          min={0}
-          value={editCatOrder}
-        />
+          onChange={handleChangeEditLabel}
+          value={editLabelTypeValue}
+        >
+          <Option value="post">Post</Option>
+          <Option value="source">Source</Option>
+          <Option value="project">Project</Option>
+        </Select>
       </Modal>
       <Row>
         <Col lg={12} md={12} xs={24} sm={24}>
@@ -410,14 +396,14 @@ const Categories = (props) => {
             <Form
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
-              initialValues={{ sticky: false, category_slug: slugCat }}
+              initialValues={{ label_slug: slugCat }}
               layout="vertical"
               className="row-col"
             >
               <Form.Item
                 className="category"
-                label="Category Name"
-                name="category_name"
+                label="Label Name"
+                name="label_name"
                 rules={[
                   {
                     required: true,
@@ -426,8 +412,8 @@ const Categories = (props) => {
                 ]}
               >
                 <Input
-                  placeholder="Category Name"
-                  onChange={(e) => setCategoryName(e.target.value)}
+                  placeholder="Label Name"
+                  onChange={(e) => setLabelName(e.target.value)}
                 />
               </Form.Item>
               {/* <Form.Item
@@ -444,14 +430,14 @@ const Categories = (props) => {
                 <Input placeholder="Category Slug" value={slugCat} onChange={setSlugCat} />
               </Form.Item> */}
 
-              <p>Category Slug</p>
+              <p>Label Slug</p>
               <Input
-                placeholder="Category Slug"
+                placeholder="Label Slug"
                 value={slugCat}
                 onChange={(e) => setSlugCat(e.target.value)}
               />
 
-              {categoryName && categoryName.length && (
+              {labelName && labelName.length && (
                 <Button
                   type="ghost"
                   style={{ width: "100%", margin: "10px 0px" }}
@@ -465,29 +451,18 @@ const Categories = (props) => {
               <br />
               <br />
 
-              <Form.Item className="category" label="Sticky" name="sticky">
-                <Switch
-                  checkedChildren="STICKY"
-                  unCheckedChildren="NONE"
-                  checked={checkedSticky}
-                  onChange={setCheckedSticky}
-                />
-              </Form.Item>
-
-              <Form.Item
-                className="category"
-                label="Order"
-                name="order"
-                initialValue={0}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input order!",
-                  },
-                ]}
+              <Select
+                defaultValue={labelType}
+                style={{ width: "100%" }}
+                onChange={handleChange}
               >
-                <InputNumber min={0} style={{ width: "100%" }} />
-              </Form.Item>
+                <Option value="post">Post</Option>
+                <Option value="source">Source</Option>
+                <Option value="project">Project</Option>
+              </Select>
+
+              <br />
+              <br />
 
               <Form.Item>
                 <Button
@@ -496,7 +471,7 @@ const Categories = (props) => {
                   style={{ width: "100%" }}
                   disabled={loading}
                 >
-                  CREATE CATEGORY
+                  CREATE LABEL
                 </Button>
               </Form.Item>
             </Form>
@@ -514,4 +489,4 @@ const Categories = (props) => {
   );
 };
 
-export default Categories;
+export default Labels;

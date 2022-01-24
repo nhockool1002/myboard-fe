@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Col, Row, Pagination } from "antd";
+import { Col, Row, Pagination, Modal } from "antd";
 import { getUser, getToken } from "utils/common";
 import { S3_API, SELF_URL } from "helpers/url";
 import Loader from "react-loader-spinner";
@@ -22,6 +22,8 @@ const PhotoDetail = (props) => {
   const [pagination, setPagination] = useState(false);
   const [rowPerPage, setRowPerPage] = useState(0);
   const [mansoryImage, setMansoryImage] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [currentItem, setCurrentItem] = useState({});
 
   const masonryOptions = {
     transitionDuration: 0,
@@ -76,6 +78,16 @@ const PhotoDetail = (props) => {
     setIsLoading(false);
   };
 
+  const handleOpenModal = (item) => {
+    setCurrentItem(item);
+    setShowModal(true);
+  };
+
+  const handleTurnOffModal = () => {
+    setCurrentItem({});
+    setShowModal(false);
+  };
+
   return (
     <div className="layout-content">
       {alert}
@@ -90,6 +102,22 @@ const PhotoDetail = (props) => {
           />
         </div>
       )}
+      <Modal
+        title="View Image"
+        visible={showModal}
+        className="showContentImage"
+        onCancel={handleTurnOffModal}
+        centered
+        width={900}
+      >
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <img
+            src={currentItem.url ? currentItem.url : ExamplePhoto}
+            style={{ maxHeight: "80vh" }}
+            alt="this is zoom window"
+          />
+        </div>
+      </Modal>
       <SRLWrapper>
         {mansoryImage && (
           <Masonry
@@ -103,18 +131,45 @@ const PhotoDetail = (props) => {
             {mansoryImage.map((item) =>
               item.file_type === "video" ? (
                 <li className="image-element-class">
-                  <video style={{ width: "420px" }} controls>
-                    <source src={item.url} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+                  <div style={{ padding: "5px" }}>
+                    <div
+                      style={{
+                        width: "420px",
+                        height: "300px",
+                        backgroundColor: "black",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      <video style={{ width: "100%", height: "100%" }} controls>
+                        <source src={item.url} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  </div>
                 </li>
               ) : (
                 <li className="image-element-class">
-                  <img
+                  <div style={{ padding: "5px" }}>
+                    <div
+                      style={{
+                        width: "420px",
+                        height: "300px",
+                        backgroundImage: item.url
+                          ? `url(${item.url})`
+                          : `url(${ExamplePhoto})`,
+                        backgroundPosition: "center center",
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        borderRadius: "5px",
+                      }}
+                      onClick={() => handleOpenModal(item)}
+                    ></div>
+                  </div>
+                  {/* <img
                     src={item.url ? item.url : ExamplePhoto}
                     style={{ width: "420px" }}
                     alt="this is thumbs"
-                  />
+                  /> */}
                 </li>
               )
             )}
