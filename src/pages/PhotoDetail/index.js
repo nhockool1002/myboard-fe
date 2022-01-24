@@ -139,6 +139,7 @@ const PhotoDetail = (props) => {
                         backgroundColor: "black",
                         borderRadius: "5px",
                       }}
+                      className="itemInList"
                     >
                       <video style={{ width: "100%", height: "100%" }} controls>
                         <source src={item.url} type="video/mp4" />
@@ -162,6 +163,7 @@ const PhotoDetail = (props) => {
                         backgroundRepeat: "no-repeat",
                         borderRadius: "5px",
                       }}
+                      className="itemInList"
                       onClick={() => handleOpenModal(item)}
                     ></div>
                   </div>

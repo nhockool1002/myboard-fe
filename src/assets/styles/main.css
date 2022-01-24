@@ -3389,4 +3389,7 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
     margin-top: 10px;
     width: 100% !important;
   }
+  .itemInList {
+    width: 100% !important;
+  }
 }
