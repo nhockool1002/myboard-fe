@@ -56,5 +56,6 @@ export const SELF_URL = {
   NOTES: "/notes",
   PHOTO: "/photo",
   CATEGORIES: "/categories",
-  LABELS: "/labels"
+  LABELS: "/labels",
+  PROJECTS: "/projects",
 }

@@ -20,7 +20,8 @@ import notesIcon from "assets/images/notes.png";
 import moneyIcon from "assets/images/money-bag.png";
 import settingsIcon from "assets/images/settings.png";
 import categoriesIcon from "assets/images/categories.png";
-import labelsIcon from "assets/images/labels.png"
+import labelsIcon from "assets/images/labels.png";
+import projectIcon from "assets/images/pjm.png";
 import { getUser, removeUserSession } from "utils/common";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -102,6 +103,14 @@ function Sidenav({ color }) {
   const labelsImgIcon = [
     <img
       src={labelsIcon}
+      style={{ width: "20px", height: "20px" }}
+      alt="This is thumb icon"
+    />,
+  ];
+
+  const projectIconImg = [
+    <img
+      src={projectIcon}
       style={{ width: "20px", height: "20px" }}
       alt="This is thumb icon"
     />,
@@ -481,6 +490,19 @@ function Sidenav({ color }) {
                   {labelsImgIcon}
                 </span>
                 <span className="label">Labels Manage</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.PROJECTS}>
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "project" ? color : "",
+                  }}
+                >
+                  {projectIconImg}
+                </span>
+                <span className="label">Projects Manage</span>
               </NavLink>
             </Menu.Item>
           </SubMenu>
