@@ -16,6 +16,7 @@ import { SETTING_API } from "helpers/url";
 import { MESSAGE } from "helpers/message";
 import { capitalizeFirstLetter } from "utils/common";
 import moment from "moment";
+import MediaLibrary from "pages/Child/MediaLibrary";
 
 const ProjectManagement = (props) => {
   const { TabPane } = Tabs;
@@ -36,8 +37,9 @@ const ProjectManagement = (props) => {
   const [errorProjectDate, setErrorProjectDate] = useState("");
   const [errorProjectDes, setErrorProjectDes] = useState("");
   const [errorProjectTech, setErrorProjectTech] = useState("");
+  const [isMediaLibrary, setIsMediaLibrary] = useState(false);
 
-  const itemProject = ['personal', 'outsource', 'company'];
+  const itemProject = ["personal", "outsource", "company"];
 
   const callback = (key) => {
     console.log(key);
@@ -139,13 +141,32 @@ const ProjectManagement = (props) => {
     }
   };
 
+  const handleTurnOnMedia = () => {
+    setIsMediaLibrary(true);
+  };
+
+  const handleTurnOffMedia = () => {
+    setIsMediaLibrary(false);
+  };
+
   return (
     <div>
+      <Modal
+        title="Media Library"
+        visible={isMediaLibrary}
+        onCancel={handleTurnOffMedia}
+        onOk={handleTurnOffMedia}
+        width={1200}
+        key="medialibrary"
+      >
+        <MediaLibrary />
+      </Modal>
       <Modal
         title="Basic Modal"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
+        key="baisc"
       >
         <p>Some contents...</p>
         <p>Some contents...</p>
@@ -234,9 +255,12 @@ const ProjectManagement = (props) => {
                       style={{ width: "100%" }}
                       onChange={handleChangeProjectType}
                     >
-                      {itemProject && itemProject.map((item) => (
-                        <Option value={item}>{capitalizeFirstLetter(item)}</Option>
-                      ))}
+                      {itemProject &&
+                        itemProject.map((item) => (
+                          <Option value={item}>
+                            {capitalizeFirstLetter(item)}
+                          </Option>
+                        ))}
                     </Select>
                   </div>
                   <br />
@@ -278,6 +302,15 @@ const ProjectManagement = (props) => {
                   <br />
                   <div className="projectDesDiv">
                     <h6 className="projectLabel">Project Description</h6>
+                    <Button
+                      type="primary"
+                      style={{ width: "20%" }}
+                      onClick={handleTurnOnMedia}
+                    >
+                      Media
+                    </Button>
+                    <br />
+                    <br />
                     <ReactQuill
                       theme="snow"
                       value={newProjectDes}

@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import ExamplePhoto from "assets/images/example.png";
 import { SRLWrapper } from "simple-react-lightbox";
 import Masonry from "react-masonry-component";
+import { BackgroundImage } from "react-image-and-background-image-fade";
 
 const PhotoDetail = (props) => {
   const history = useHistory();
@@ -107,6 +108,7 @@ const PhotoDetail = (props) => {
         visible={showModal}
         className="showContentImage"
         onCancel={handleTurnOffModal}
+        onOk={handleTurnOffModal}
         centered
         width={900}
       >
@@ -141,7 +143,11 @@ const PhotoDetail = (props) => {
                       }}
                       className="itemInList"
                     >
-                      <video style={{ width: "100%", height: "100%" }} controls>
+                      <video
+                        style={{ width: "100%", height: "100%" }}
+                        controls
+                        preload="none"
+                      >
                         <source src={item.url} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
@@ -151,13 +157,13 @@ const PhotoDetail = (props) => {
               ) : (
                 <li className="image-element-class">
                   <div style={{ padding: "5px" }}>
-                    <div
+                    <BackgroundImage
+                      src={item.url ? item.url : ExamplePhoto}
+                      width="420px"
+                      height="300px"
                       style={{
                         width: "420px",
                         height: "300px",
-                        backgroundImage: item.url
-                          ? `url(${item.url})`
-                          : `url(${ExamplePhoto})`,
                         backgroundPosition: "center center",
                         backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
@@ -165,7 +171,8 @@ const PhotoDetail = (props) => {
                       }}
                       className="itemInList"
                       onClick={() => handleOpenModal(item)}
-                    ></div>
+                      lazyLoad
+                    />
                   </div>
                   {/* <img
                     src={item.url ? item.url : ExamplePhoto}
