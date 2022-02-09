@@ -12,7 +12,6 @@ import {
 } from "antd";
 import ReactQuill from "react-quill";
 import { ReactQuillToolbar } from "utils/common";
-import { SETTING_API } from "helpers/url";
 import { MESSAGE } from "helpers/message";
 import { capitalizeFirstLetter } from "utils/common";
 import moment from "moment";
@@ -43,6 +42,7 @@ const ProjectManagement = (props) => {
 
   const callback = (key) => {
     console.log(key);
+    console.log(errorProjectType);
   };
 
   const showModal = () => {
@@ -95,13 +95,13 @@ const ProjectManagement = (props) => {
 
   const handleSubmit = () => {
     console.log("start");
-    if (newProjectName == "" || newProjectName.length <= 0) {
+    if (newProjectName === "" || newProjectName.length <= 0) {
       setErrorProjectName(MESSAGE.PROJECT_NAME_REQUIRED);
       console.log("error project name");
       return;
     }
 
-    if (newProjectCustomer == "" || newProjectCustomer.length <= 0) {
+    if (newProjectCustomer === "" || newProjectCustomer.length <= 0) {
       setErrorProjectCustomer(MESSAGE.PROJECT_CUSTOMER_REQUIRED);
       console.log("error project customer");
       return;
@@ -113,7 +113,7 @@ const ProjectManagement = (props) => {
       return;
     }
 
-    if (newProjectStartDate == "" || newProjectStartDate.length <= 0) {
+    if (newProjectStartDate === "" || newProjectStartDate.length <= 0) {
       setErrorProjectDate(MESSAGE.PROJECT_START_DATE_REQUIRED);
       console.log("error project start date");
       return;
@@ -128,13 +128,13 @@ const ProjectManagement = (props) => {
       }
     }
 
-    if (newProjectDes == "" || newProjectDes.length <= 0) {
+    if (newProjectDes === "" || newProjectDes.length <= 0) {
       setErrorProjectDes(MESSAGE.PROJECT_DESCRIPTION_REQUIRED);
       console.log("error project description");
       return;
     }
 
-    if (newProjectTech == "" || newProjectTech.length <= 0) {
+    if (newProjectTech === "" || newProjectTech.length <= 0) {
       setErrorProjectTech(MESSAGE.PROJECT_TECH_REQUIRED);
       console.log("error project tech");
       return;

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Row, Col, Upload, Button, message, Empty, Input } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import ExamplePhoto from "assets/images/example.png";
 import ClickPlay from "assets/images/clickPlay.png";
 import { Image } from "react-image-and-background-image-fade";
-import { isEmpty } from "lodash";
 
 const payLoadData = [
   {
@@ -61,7 +60,7 @@ const MediaLibrary = () => {
     name: "file",
     action: "",
     headers: {
-      Authorization: "Token " + "",
+      Authorization: "Token 213",
     },
     multiple: true,
     onChange(info) {
@@ -125,7 +124,7 @@ const MediaLibrary = () => {
             {currentData && Object.keys(currentData).length ? (
               currentData.file_type === "image" ? (
                 <div className="currentImage">
-                  <img src={currentData.url ? currentData.url : ExamplePhoto} />
+                  <img src={currentData.url ? currentData.url : ExamplePhoto} alt="this is current" />
                   <Input.Group
                     compact
                     style={{ width: "100%" }}
