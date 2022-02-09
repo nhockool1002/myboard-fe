@@ -3328,6 +3328,130 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
 .logout-button {
   margin-top: 15px;
 }
+#cardProject {
+  box-shadow: unset !important;
+  border: 1px solid #ffdbe6 !important;
+}
+#cardProject .ant-card-body {
+  padding: 0 !important;
+  padding-top: 10px !important;
+}
+#cardProject .ant-card-body h5 {
+  color: #de7c9c;
+  font-weight: 600;
+}
+#cardProject .ant-card-body h5.cuscomclass {
+  background-color: #de7c9c;
+  text-align: center;
+  color: white;
+  font-weight: 100;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 3px;
+}
+#cardProject .ant-card-body h6 {
+  font-size: 12px;
+  color: #565656;
+}
+.tabProject .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #de7c9c;
+}
+.tabProject .ant-tabs-tab:hover {
+  color: #de7c9c;
+}
+.tabProject .ant-tabs-ink-bar {
+  background: #de7c9c !important;
+}
+.boxProjectAdd {
+  padding: 20px;
+  width: 100%;
+}
+.boxProjectAdd .ant-card {
+  box-shadow: unset !important;
+  border: 1px solid #ffdbe6;
+}
+h6.projectLabel {
+  font-weight: 100;
+  font-size: 14px;
+  color: #de7c9c;
+}
+h6.projectError {
+  font-size: 14px;
+  color: rgb(255, 0, 0);
+  font-weight: 800;
+}
+.uploadMediaCompoment {
+  width: 100%;
+}
+.uploadMediaCompoment .ant-upload-list {
+  width: 100%;
+  max-height: 100px;
+  overflow-x: auto;
+}
+.libraryMediaComponent {
+  margin-top: 20px;
+  width: 100%;
+  min-height: 100px;
+  height: auto;
+  max-height: 50vh;
+  overflow-x: auto;
+  border: 1px solid #e9e9e9;
+  border-radius: 10px;
+  padding: 10px;
+}
+.libraryMediaComponent > div {
+  padding: 5px;
+  box-sizing: border-box;
+  float: left;
+  width: 20%;
+  height: 170px;
+}
+.libraryMediaComponent > div:hover {
+  cursor: pointer;
+}
+.libraryMediaComponent > div > video {
+  padding: 5px;
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  height: 170px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.libraryMediaComponent > div > video:hover {
+  cursor: pointer;
+}
+.libraryMediaComponent div img {
+  border-radius: 10px;
+  border: 1px solid #e9e9e9;
+}
+.libraryMediaComponent .ant-empty {
+  width: 100%;
+}
+
+.currentMediaComponent {
+  margin-top: 20px;
+  width: 100%;
+  min-height: 100px;
+  height: 50vh;
+  max-height: 50vh;
+  overflow-x: auto;
+  border: 1px solid #e9e9e9;
+  border-radius: 10px;
+  padding: 10px;
+}
+span.ant-input-group.ant-input-group-compact.mediaCompact input {
+  width: calc(100% - 55px) !important;
+}
+span.ant-input-group.ant-input-group-compact.mediaCompact button {
+  width: 56px !important;
+}
+.currentVideo video {
+  max-width: 100%;
+}
 
 @media (min-width: 601px) and (max-width: 1024px) {
   .my-gallery-class {
@@ -3353,6 +3477,10 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   .moneyExchangeBox {
     margin-top: 10px;
     width: 100% !important;
+  }
+  .libraryMediaComponent > div {
+    width: 33.33%;
+    height: 190px;
   }
 }
 
@@ -3391,5 +3519,13 @@ section.ant-layout.ant-layout-has-sider.layout-dashboard.layout-profile
   }
   .itemInList {
     width: 100% !important;
+  }
+  .libraryMediaComponent > div {
+    width: 50%;
+    height: 200px;
+  }
+  .currentMediaComponent {
+    min-height: 10vh;
+    height: auto;
   }
 }
