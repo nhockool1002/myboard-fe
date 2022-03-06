@@ -23,7 +23,7 @@ import categoriesIcon from "assets/images/categories.png";
 import labelsIcon from "assets/images/labels.png";
 import projectIcon from "assets/images/pjm.png";
 import { getUser, removeUserSession } from "utils/common";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { SELF_URL } from "helpers/url";
@@ -39,6 +39,7 @@ function Sidenav({ color }) {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
   const [logged, setLogged] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState([]);
   const history = useHistory();
   const { SubMenu } = Menu;
 
@@ -236,6 +237,18 @@ function Sidenav({ color }) {
       ></path>
     </svg>,
   ];
+
+  useMemo(() => {
+    if (['/categories', '/labels', '/projects'].includes(pathname)) {
+      setSelectedMenu(['exsetting'])
+    }
+    if (['/photo', '/notes', '/money-exchange'].includes(pathname)) {
+      setSelectedMenu(['internalsetting'])
+    }
+    if (['/general-settings', '/photo-settings'].includes(pathname)) {
+      setSelectedMenu(['privatesetting'])
+    }
+  }, [pathname]);
 
   // const signup = [
   //   <svg
@@ -437,7 +450,7 @@ function Sidenav({ color }) {
         )}
       </Menu> */}
       <div className="menuMyBoardWrapper">
-        <Menu mode="inline" className="menuMyboard">
+        <Menu mode="inline" className="menuMyboard" defaultOpenKeys={selectedMenu}>
           {/* <SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
             <Menu.ItemGroup key="g1" title="Item 1">
               <Menu.Item key="1">Option 1</Menu.Item>
@@ -461,7 +474,7 @@ function Sidenav({ color }) {
             </SubMenu>
           </SubMenu> */}
           <SubMenu
-            key={uuidv4()}
+            key="exsetting"
             icon={<LaptopOutlined />}
             title="Extenal Settings"
             className="menuListItem"
@@ -507,7 +520,7 @@ function Sidenav({ color }) {
             </Menu.Item>
           </SubMenu>
           <SubMenu
-            key={uuidv4()}
+            key="internalsetting"
             icon={<NodeIndexOutlined />}
             title="Internal Function"
             className="menuListItem"
@@ -553,7 +566,7 @@ function Sidenav({ color }) {
             </Menu.Item>
           </SubMenu>
           <SubMenu
-            key={uuidv4()}
+            key="privatesetting"
             icon={<LockOutlined />}
             title="Private Settings"
             className="menuListItem"

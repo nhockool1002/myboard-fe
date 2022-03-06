@@ -277,6 +277,8 @@ const MoneyExchange = (props) => {
               <Tag color="cyan" onClick={() => handleSetByFastPopular("GBP")}>GBP</Tag>
               <Tag color="green" onClick={() => handleSetByFastPopular("AUD")}>AUD</Tag>
               <Tag color="orange" onClick={() => handleSetByFastPopular("VND")}>VND</Tag>
+              <Tag color="purple" onClick={() => handleSetByFastPopular("JPY")}>JPY</Tag>
+              <Tag color="geekblue" onClick={() => handleSetByFastPopular("CNY")}>CNY</Tag>
               <br /><br />
             </Col>
             </Row>
