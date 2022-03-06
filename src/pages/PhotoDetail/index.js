@@ -146,7 +146,6 @@ const PhotoDetail = (props) => {
                       <video
                         style={{ width: "100%", height: "100%" }}
                         controls
-                        preload="none"
                       >
                         <source src={item.url} type="video/mp4" />
                         Your browser does not support the video tag.

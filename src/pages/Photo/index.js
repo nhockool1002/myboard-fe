@@ -7,6 +7,7 @@ import { S3_API, SELF_URL } from "helpers/url";
 import Loader from "react-loader-spinner";
 import { isEmpty } from "lodash";
 import { v4 as uuidv4 } from "uuid";
+import { HiLink } from "react-icons/hi";
 
 import { ShowSweetAlert, dateFormat } from "utils/common";
 import ExamplePhoto from "assets/images/example.png";
@@ -174,7 +175,7 @@ const Photo = (props) => {
                         {item.folder_name ? item.folder_name : ""}
                       </Title>
                       <div className="bnb85">
-                        💖 {item.created_at ? dateFormat(item.created_at) : ""}
+                        <HiLink /> {item.created_at ? dateFormat(item.created_at) : ""}
                       </div>
                     </Col>
                   </Row>

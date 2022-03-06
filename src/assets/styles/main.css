@@ -3528,4 +3528,11 @@ span.ant-input-group.ant-input-group-compact.mediaCompact button {
     min-height: 10vh;
     height: auto;
   }
+  .image-element-class {
+    width: 100%;
+  }
+
+  .image-element-class .sc-bxivhb {
+    width: 100%;
+  }
 }
