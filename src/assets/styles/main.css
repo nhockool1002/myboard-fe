@@ -3536,3 +3536,47 @@ span.ant-input-group.ant-input-group-compact.mediaCompact button {
     width: 100%;
   }
 }
+
+.buttonPayment {
+  font-size: 18px;
+  background-color: #08d4db;
+  padding: 5px;
+  border-radius: 10px;
+  color: #fff;
+  margin-right: 5px;
+}
+
+.buttonPaymentRemove {
+  font-size: 18px;
+  background-color: #d40404;
+  padding: 5px;
+  border-radius: 10px;
+  color: #fff;
+  margin-right: 5px;
+}
+
+.buttonPaymentPrint {
+  font-size: 18px;
+  background-color: #b7ab08;
+  padding: 5px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.buttonPaymentAdd {
+  font-size: 24px;
+  background-color: #4c5bf7;
+  padding: 5px;
+  border-radius: 10px;
+  color: #fff;
+  float: right;
+  margin-bottom: 10px;
+}
+
+.buttonPayment:hover {
+  cursor: pointer;
+}
+
+.buttonPaymentRemove:hover {
+  cursor: pointer;
+}

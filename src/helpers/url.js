@@ -43,6 +43,10 @@ export const EX_LABELS = {
   REST: API_URL + "/api/ex-labels/",
 }
 
+export const PAYMENT_REMINDER = {
+  REST: API_URL + "/api/payment-reminder/",
+}
+
 export const SELF_URL = {
   LOGIN: "/sign-in",
   DASHBOARD: "/dashboard",
@@ -58,4 +62,5 @@ export const SELF_URL = {
   CATEGORIES: "/categories",
   LABELS: "/labels",
   PROJECTS: "/projects",
+  PAYMENT: "/payment-reminder"
 }
