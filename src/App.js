@@ -45,6 +45,7 @@ import { ShowSweetAlert } from "utils/common";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { SELF_URL } from 'helpers/url';
+import PaymentReminder from "pages/PaymentReminder";
 
 function App() {
   const [listSetting, setListSetting] = useState([]);
@@ -143,6 +144,7 @@ function App() {
           <PrivateRoute exact path={SELF_URL.CATEGORIES} component={Categories} />
           <PrivateRoute exact path={SELF_URL.LABELS} component={Labels} />
           <PrivateRoute exact path={SELF_URL.PROJECTS} component={ProjectManagement} />
+          <PrivateRoute exact path={SELF_URL.PAYMENT} component={PaymentReminder} />
           <PrivateRoute
             exact
             path={SELF_URL.PHOTO_SETTINGS}

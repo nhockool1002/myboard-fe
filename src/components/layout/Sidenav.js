@@ -18,6 +18,7 @@ import photoIcon from "assets/images/photos.png";
 import photoSettingsIcon from "assets/images/photo-settings.png";
 import notesIcon from "assets/images/notes.png";
 import moneyIcon from "assets/images/money-bag.png";
+import paymentIcon from "assets/images/payment.png";
 import settingsIcon from "assets/images/settings.png";
 import categoriesIcon from "assets/images/categories.png";
 import labelsIcon from "assets/images/labels.png";
@@ -80,6 +81,14 @@ function Sidenav({ color }) {
   const moneyExchangeIcon = [
     <img
       src={moneyIcon}
+      style={{ width: "20px", height: "20px" }}
+      alt="This is thumb icon"
+    />,
+  ];
+
+  const paymentImageIcon = [
+    <img
+      src={paymentIcon}
       style={{ width: "20px", height: "20px" }}
       alt="This is thumb icon"
     />,
@@ -562,6 +571,19 @@ function Sidenav({ color }) {
                   {moneyExchangeIcon}
                 </span>
                 <span className="label">Money Exchange</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.PAYMENT}>
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "payment-reminder" ? color : "",
+                  }}
+                >
+                  {paymentImageIcon}
+                </span>
+                <span className="label">Payment Reminder</span>
               </NavLink>
             </Menu.Item>
           </SubMenu>
