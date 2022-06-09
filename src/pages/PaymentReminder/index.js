@@ -46,7 +46,8 @@ const PaymentReminder = () => {
             title: 'Payment Content',
             dataIndex: 'payment_content',
             width: '30%',
-            render: (text) => <div dangerouslySetInnerHTML={createMarkup(text)} />
+            className: "contentPaymentCol",
+            render: (text) => <div className={"contentPaymentColWrap"} dangerouslySetInnerHTML={createMarkup(text)} />
         },
         {
             title: 'Duedate',
@@ -441,7 +442,7 @@ const PaymentReminder = () => {
                 <b>{currentPayment.payment_name}</b><br />
                 ------------------<br />
                 Ngày hết hạn : {moment(currentPayment.payment_due_date, dateFormat).format(dateFormat)}<br />
-                {currentPayment.payment_content}<br />
+                <div className={"divContentPayment"} dangerouslySetInnerHTML={{__html: currentPayment.payment_content}} />
                 ------------------<br />
                 Số tiền : {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(currentPayment.payment_price)}<br />
                 VAT (10%) : {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(currentPayment.payment_price * (10/100))}<br />
