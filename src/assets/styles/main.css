@@ -3584,3 +3584,28 @@ span.ant-input-group.ant-input-group-compact.mediaCompact button {
 .tablePayment .ant-table-tbody > tr > td{
   white-space: break-spaces;
 }
+
+.divContentPayment {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #efefef;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  min-height: 250px;
+  max-height: 300px;
+  overflow-y: scroll;
+  line-height: 8px;
+  padding-top: 20px;
+}
+
+.contentPaymentColWrap {
+  min-height: 50px;
+  max-height: 150px;
+  overflow-y: scroll;
+  background-color: #fbfbfb;
+  border-radius: 10px;
+  padding: 10px 5px;
+  border: 1px solid #efefef;
+  line-height: 18px;
+}
