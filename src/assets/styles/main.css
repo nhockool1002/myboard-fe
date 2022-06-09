@@ -3580,3 +3580,7 @@ span.ant-input-group.ant-input-group-compact.mediaCompact button {
 .buttonPaymentRemove:hover {
   cursor: pointer;
 }
+
+.tablePayment .ant-table-tbody > tr > td{
+  white-space: break-spaces;
+}

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Tag, Space, Tooltip, Button, Modal, Input, Select, DatePicker } from 'antd';
+import { Table, Tooltip, Modal, Input, Select, DatePicker } from 'antd';
 import { PAYMENT_REMINDER } from 'helpers/url';
 import { getUser, getToken } from "utils/common";
-import { ShowSweetAlert } from "utils/common";
+import { ShowSweetAlert, ReactQuillToolbar } from "utils/common";
 import Loader from "react-loader-spinner";
 import { CheckCircleOutlined, CloseCircleOutlined, EditOutlined, CloseOutlined, PrinterOutlined, SubnodeOutlined } from '@ant-design/icons';
 import axios from "axios";
-import moment, { utc } from "moment";
+import moment from "moment";
+import ReactQuill from "react-quill";
 
 const PaymentReminder = () => {
+    const reactQuillSetting = ReactQuillToolbar();
     const [loading, setIsLoading] = useState(false)
     const [alert, setAlert] = useState(null)
     const [currentUser, setCurrentUser] = useState({})
@@ -19,13 +21,12 @@ const PaymentReminder = () => {
 
     const [paymentName, setPaymentName] = useState('')
     const [paymentPrice, setPaymentPrice] = useState('')
-    const [paymentContent, setPaymentContent] = useState('')
     const [paymentDate, setPaymentDate] = useState('')
     const [paymentStatus, setPaymentStatus] = useState(0)
 
     const [currentPayment, setCurrentPayment] = useState({})
+    const [newNoteContent, setNewNoteContent] = useState("");
 
-    const { TextArea } = Input
     const { Option } = Select
 
     const dateFormat = 'DD-MM-YYYY'
@@ -33,37 +34,44 @@ const PaymentReminder = () => {
         {
             title: 'Payment Name',
             dataIndex: 'payment_name',
+            width: '10%',
         },
         {
             title: 'Payment Price',
             dataIndex: 'payment_price',
+            width: '12%',
             render: (text) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(text)
         },
         {
             title: 'Payment Content',
             dataIndex: 'payment_content',
+            width: '30%',
+            render: (text) => <div dangerouslySetInnerHTML={createMarkup(text)} />
         },
         {
             title: 'Duedate',
             dataIndex: 'payment_due_date',
+            width: '12%',
             render: (text) => moment(text).format("DD-MM-YYYY")
         },
         {
             title: 'Status',
             dataIndex: 'payment_status',
-            render: (text) => text == false ?
+            width: '12%',
+            render: (text) => text === false ?
                 <CloseCircleOutlined style={{ fontSize: '22px', color: '#d40404' }} /> :
                 <CheckCircleOutlined style={{ fontSize: '22px', color: '#009c27' }} />
         },
         {
             title: 'Options',
             dataIndex: 'id',
+            width: '12%',
             render: (item) => <div>
                 <Tooltip placement="top" title="Sửa">
                     <EditOutlined onClick={() => showEditModalPrompt(item)} className={'buttonPayment'} />
                 </Tooltip>
                 <Tooltip placement="top" title="Xoá">
-                    <CloseOutlined onClick={() => window.confirm("Xác nhận xoá Payemnt Reminder ?") == true ? removePayment(item) : ''} className={'buttonPaymentRemove'} />
+                    <CloseOutlined onClick={() => window.confirm("Xác nhận xoá Payemnt Reminder ?") === true ? removePayment(item) : ''} className={'buttonPaymentRemove'} />
                 </Tooltip>
                 <Tooltip placement="top" title="Tạo mã">
                     <PrinterOutlined onClick={() => showEditModalPrompt(item, 2)} className={'buttonPaymentPrint'} />
@@ -112,7 +120,7 @@ const PaymentReminder = () => {
                 .post(PAYMENT_REMINDER.REST, 
                 {
                     payment_name: paymentName,
-                    payment_content: paymentContent,
+                    payment_content: newNoteContent,
                     payment_due_date: paymentDate,
                     payment_price: paymentPrice,
                     payment_status: paymentStatus
@@ -168,10 +176,10 @@ const PaymentReminder = () => {
                 setIsLoading(false)
                 setPaymentName(data.payment_name)
                 setPaymentPrice(data.payment_price)
-                setPaymentContent(data.payment_content)
+                setNewNoteContent(data.payment_content)
                 setPaymentDate(data.payment_due_date)
                 setPaymentStatus(data.payment_status)
-                if (type == 1) {
+                if (type === 1) {
                     setShowEditModal(true)
                 } else {
                     setShowBillModal(true)
@@ -206,10 +214,6 @@ const PaymentReminder = () => {
         setPaymentPrice(e.target.value)
     }
 
-    const handleChangePaymentContent = (e) => {
-        setPaymentContent(e.target.value)
-    }
-
     const handleChangePaymentDate = (e) => {
         setPaymentDate(e)
     }
@@ -218,6 +222,8 @@ const PaymentReminder = () => {
         setPaymentStatus(e)
     }
 
+    function createMarkup(html) { return {__html: html}; };
+
     const handleOkEditModal = (e) => {
         setIsLoading(true);
         if (currentUser) {
@@ -225,7 +231,7 @@ const PaymentReminder = () => {
                 .patch(PAYMENT_REMINDER.REST + `${currentPayment.id}`, 
                 {
                     payment_name: paymentName,
-                    payment_content: paymentContent,
+                    payment_content: newNoteContent,
                     payment_due_date: paymentDate,
                     payment_price: paymentPrice,
                     payment_status: paymentStatus
@@ -237,7 +243,7 @@ const PaymentReminder = () => {
                     var newData = res.data.data
                     var listData = data;
                     var indexItem = listData.findIndex((item) => {
-                        return item.id == newData.id;
+                        return item.id === newData.id;
                     })
                     listData[indexItem] = newData
                     setData([...listData])
@@ -277,10 +283,10 @@ const PaymentReminder = () => {
     const resetData = () => {
         setPaymentName('')
         setPaymentPrice('')
-        setPaymentContent('')
         setPaymentDate('')
         setPaymentStatus(0)
         setCurrentPayment({})
+        setNewNoteContent("")
     }
 
     const handleCloseBill = () => {
@@ -298,7 +304,7 @@ const PaymentReminder = () => {
                 .then((res) => {
                     var listData = data;
                     var indexItem = listData.findIndex((item) => {
-                        return item.id == id;
+                        return item.id === id;
                     })
                     listData.splice(indexItem, 1)
                     setData([...listData])
@@ -336,7 +342,7 @@ const PaymentReminder = () => {
             <Tooltip placement="top" title="Thêm mới">
                 <SubnodeOutlined className={'buttonPaymentAdd'} onClick={showModal} />
             </Tooltip>
-            <Table columns={columns} dataSource={[...data]} />
+            <Table columns={columns} dataSource={[...data]} className={"tablePayment"} />
             {/* Modal Add Payment Reminder */}
             <Modal
                 title="Add Payment Reminder"
@@ -350,7 +356,15 @@ const PaymentReminder = () => {
                 <br /><br />
                 <Input placeholder="Payment Price" type={"number"} onChange={handleChangePaymentPrice} />
                 <br /><br />
-                <TextArea placeholder="Payment Content" rows={4} allowClear onChange={handleChangePaymentContent} />
+                {/* <TextArea placeholder="Payment Content" rows={4} allowClear onChange={handleChangePaymentContent} /> */}
+                <ReactQuill
+                    theme="snow"
+                    value={newNoteContent ? newNoteContent : ""}
+                    onChange={setNewNoteContent}
+                    modules={reactQuillSetting.modules}
+                    formats={reactQuillSetting.formats}
+                    className="reactBoxSetting boxNoteReactQuill"
+                />
                 <br /><br />
                 <DatePicker placeholder="Payment Due Date" style={{ width: '100%' }} onChange={handleChangePaymentDate} format={dateFormat} />
                 <br /><br />
@@ -382,12 +396,20 @@ const PaymentReminder = () => {
                     defaultValue={currentPayment.payment_price ? currentPayment.payment_price : ''}
                 />
                 <br /><br />
-                <TextArea 
+                {/* <TextArea 
                     placeholder="Payment Content"
                     rows={4} 
                     allowClear 
                     onChange={handleChangePaymentContent} 
                     defaultValue={currentPayment.payment_content ? currentPayment.payment_content : ''}
+                /> */}
+                <ReactQuill
+                    theme="snow"
+                    value={newNoteContent ? newNoteContent : ""}
+                    onChange={setNewNoteContent}
+                    modules={reactQuillSetting.modules}
+                    formats={reactQuillSetting.formats}
+                    className="reactBoxSetting boxNoteReactQuill"
                 />
                 <br /><br />
                 <DatePicker 
@@ -399,7 +421,7 @@ const PaymentReminder = () => {
                 />
                 <br /><br />
                 <Select 
-                    defaultValue={currentPayment.payment_status == true && currentPayment.payment_status == true  ? "1" : "0"} 
+                    defaultValue={currentPayment.payment_status === true && currentPayment.payment_status === true  ? "1" : "0"} 
                     style={{ width: '100%' }} 
                     onChange={handleChangePaymentStatus}
                 >
