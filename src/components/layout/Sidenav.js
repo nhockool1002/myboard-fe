@@ -23,6 +23,7 @@ import settingsIcon from "assets/images/settings.png";
 import categoriesIcon from "assets/images/categories.png";
 import labelsIcon from "assets/images/labels.png";
 import projectIcon from "assets/images/pjm.png";
+import testIcon from "assets/images/testing.png";
 import { getUser, removeUserSession } from "utils/common";
 import { useEffect, useMemo } from "react";
 import { useState } from "react";
@@ -121,6 +122,14 @@ function Sidenav({ color }) {
   const projectIconImg = [
     <img
       src={projectIcon}
+      style={{ width: "20px", height: "20px" }}
+      alt="This is thumb icon"
+    />,
+  ];
+
+  const testingIconImg = [
+    <img
+      src={testIcon}
       style={{ width: "20px", height: "20px" }}
       alt="This is thumb icon"
     />,
@@ -251,7 +260,7 @@ function Sidenav({ color }) {
     if (['/categories', '/labels', '/projects'].includes(pathname)) {
       setSelectedMenu(['exsetting'])
     }
-    if (['/photo', '/notes', '/money-exchange'].includes(pathname)) {
+    if (['/photo', '/notes', '/money-exchange', '/payment-reminder', '/utest-overview'].includes(pathname)) {
       setSelectedMenu(['internalsetting'])
     }
     if (['/general-settings', '/photo-settings'].includes(pathname)) {
@@ -584,6 +593,19 @@ function Sidenav({ color }) {
                   {paymentImageIcon}
                 </span>
                 <span className="label">Payment Reminder</span>
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key={uuidv4()}>
+              <NavLink to={SELF_URL.UTEST}>
+                <span
+                  className="icon"
+                  style={{
+                    background: page === "utest-overview" ? color : "",
+                  }}
+                >
+                  {testingIconImg}
+                </span>
+                <span className="label">uTest Overview</span>
               </NavLink>
             </Menu.Item>
           </SubMenu>

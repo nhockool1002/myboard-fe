@@ -1,54 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
-import { Card, Col, Row, Button, Form, Input, Upload, message } from "antd";
-import { getUser, getToken } from "utils/common";
-import { SETTING_API, SELF_URL } from "helpers/url";
-import Loader from "react-loader-spinner";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
+import axios from "axios"
+import { Card, Col, Row, Button, Form, Input, Upload, message } from "antd"
+import { getUser, getToken } from "utils/common"
+import { SETTING_API, SELF_URL } from "helpers/url"
+import Loader from "react-loader-spinner"
+import { v4 as uuidv4 } from "uuid"
 
-import { ShowSweetAlert, ReactQuillToolbar } from "utils/common";
-import ExamplePhoto from "assets/images/example.png";
-import { UploadOutlined } from "@ant-design/icons";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { ShowSweetAlert, ReactQuillToolbar } from "utils/common"
+import ExamplePhoto from "assets/images/example.png"
+import { UploadOutlined } from "@ant-design/icons"
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
 
 const Settings = (props) => {
-  const [update, setUpdate] = useState(0);
-  const [currentUser, setCurrentUser] = useState({});
-  const [loading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState(null);
-  const history = useHistory();
-  const [titleSetting, setTitleSetting] = useState("");
-  const [descriptionSetting, setDescriptionSetting] = useState("");
-  const [footerSetting, setFooterSetting] = useState("");
-  const [thumbSetting, setThumbSetting] = useState("");
-  const [favSetting, setFavSetting] = useState("");
-  const [moneyExchangeUrlSetting, setMoneyExchangeUrlSetting] = useState("");
-  const [moneyExchangeKeySetting, setMoneyExchangeKeySetting] = useState("");
-  const reactQuillSetting = ReactQuillToolbar();
+  const [update, setUpdate] = useState(0)
+  const [currentUser, setCurrentUser] = useState({})
+  const [loading, setIsLoading] = useState(false)
+  const [alert, setAlert] = useState(null)
+  const history = useHistory()
+  const [titleSetting, setTitleSetting] = useState("")
+  const [descriptionSetting, setDescriptionSetting] = useState("")
+  const [footerSetting, setFooterSetting] = useState("")
+  const [thumbSetting, setThumbSetting] = useState("")
+  const [favSetting, setFavSetting] = useState("")
+  const [moneyExchangeUrlSetting, setMoneyExchangeUrlSetting] = useState("")
+  const [moneyExchangeKeySetting, setMoneyExchangeKeySetting] = useState("")
+  const [utestApiDomain, setUtestApiDomain] = useState("")
+  const [utestApiToken, setUtestApiToken] = useState("")
+  const [utestPFApiDomain, setUtestPFApiDomain] = useState("")
+  const [utestTesterId, setUtestTesterId] = useState("")
+  const reactQuillSetting = ReactQuillToolbar()
 
   const formProps = {
     name: "file",
     action: SETTING_API.UPDADTE_THUMB_SETTINGS,
     headers: {
-      Authorization: "Token " + getToken(),
+      Authorization: "Token " + getToken()
     },
     data: {
-      type: "thumb",
+      type: "thumb"
     },
     listType: "picture",
     multiple: false,
     maxCount: 1,
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+        console.log(info.file, info.fileList)
       }
       if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-        setUpdate(uuidv4());
+        message.success(`${info.file.name} file uploaded successfully`)
+        setUpdate(uuidv4())
       } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
+        message.error(`${info.file.name} file upload failed.`)
       }
     },
     accept: ".jpg,.jpeg,.png",
@@ -56,34 +60,34 @@ const Settings = (props) => {
       width: "90%",
       strokeColor: {
         "0%": "#108ee9",
-        "100%": "#87d068",
+        "100%": "#87d068"
       },
       strokeWidth: 2,
-      format: (percent) => `${parseFloat(percent.toFixed(2))}%`,
-    },
-  };
+      format: (percent) => `${parseFloat(percent.toFixed(2))}%`
+    }
+  }
 
   const formPropsFav = {
     name: "file",
     action: SETTING_API.UPDADTE_THUMB_SETTINGS,
     headers: {
-      Authorization: "Token " + getToken(),
+      Authorization: "Token " + getToken()
     },
     data: {
-      type: "fav",
+      type: "fav"
     },
     listType: "picture",
     multiple: false,
     maxCount: 1,
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+        console.log(info.file, info.fileList)
       }
       if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-        setUpdate(uuidv4());
+        message.success(`${info.file.name} file uploaded successfully`)
+        setUpdate(uuidv4())
       } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
+        message.error(`${info.file.name} file upload failed.`)
       }
     },
     accept: ".png",
@@ -91,30 +95,30 @@ const Settings = (props) => {
       width: "90%",
       strokeColor: {
         "0%": "#108ee9",
-        "100%": "#87d068",
+        "100%": "#87d068"
       },
       strokeWidth: 2,
-      format: (percent) => `${parseFloat(percent.toFixed(2))}%`,
-    },
-  };
+      format: (percent) => `${parseFloat(percent.toFixed(2))}%`
+    }
+  }
 
   useEffect(() => {
-    setIsLoading(true);
-    const user = getUser();
+    setIsLoading(true)
+    const user = getUser()
     if (user !== null) {
-      setCurrentUser(user);
+      setCurrentUser(user)
       axios
         .get(SETTING_API.GET_GENERAL_SETTINGS, {
-          headers: { Authorization: "Token " + getToken() },
+          headers: { Authorization: "Token " + getToken() }
         })
         .then((res) => {
-          setIsLoading(false);
+          setIsLoading(false)
           res.data.data.map((item) => {
-            return setDataValue(item.setting_key, item.setting_value);
-          });
+            return setDataValue(item.setting_key, item.setting_value)
+          })
         })
         .catch((error) => {
-          setIsLoading(true);
+          setIsLoading(true)
           setAlert(
             <ShowSweetAlert
               type="danger"
@@ -122,59 +126,71 @@ const Settings = (props) => {
               message={error.response}
               onClick={handleClickAlert}
             ></ShowSweetAlert>
-          );
-        });
-    } else window.location.href = SELF_URL.LOGIN;
+          )
+        })
+    } else window.location.href = SELF_URL.LOGIN
     // eslint-disable-next-line
-  }, [update]);
+  }, [update])
 
   const setDataValue = (item, value) => {
     switch (item) {
       case "title":
-        setTitleSetting(value);
-        break;
+        setTitleSetting(value)
+        break
       case "description":
-        setDescriptionSetting(value);
-        break;
+        setDescriptionSetting(value)
+        break
       case "footer":
-        setFooterSetting(value);
-        break;
+        setFooterSetting(value)
+        break
       case "thumb_image":
-        setThumbSetting(value);
-        break;
+        setThumbSetting(value)
+        break
       case "fav_image":
-        setFavSetting(value);
-        break;
+        setFavSetting(value)
+        break
       case "money_exchange_domain":
-        setMoneyExchangeUrlSetting(value);
-        break;
+        setMoneyExchangeUrlSetting(value)
+        break
       case "money_exchange_key":
-        setMoneyExchangeKeySetting(value);
-        break;
+        setMoneyExchangeKeySetting(value)
+        break
+      case "utest_api_domain":
+        setUtestApiDomain(value)
+        break
+      case "utest_api_token":
+        setUtestApiToken(value)
+        break
+      case "utest_api_platform_domain":
+        setUtestPFApiDomain(value)
+        break
+      case "utest_tester_id":
+        setUtestTesterId(value)
+        break
       default:
-        break;
+        break
     }
-  };
+  }
 
   const onFinish = (value, item) => {
-    setIsLoading(true);
-    setDataValue(item, value[item]);
-    const message = `Setting ${item} success!`;
+    setIsLoading(true)
+    setDataValue(item, value[item])
+    const message = `Setting ${item} success!`
     if (currentUser !== null) {
       axios
         .post(
           SETTING_API.UPDADTE_GENERAL_SETTINGS,
           {
             setting_key: item,
-            setting_value: value[item],
+            setting_value: value[item]
           },
           {
-            headers: { Authorization: "Token " + getToken() },
+            headers: { Authorization: "Token " + getToken() }
           }
         )
         .then((res) => {
-          setIsLoading(false);
-          setUpdate(uuidv4());
+          setIsLoading(false)
+          setUpdate(uuidv4())
           setAlert(
             <ShowSweetAlert
               type="success"
@@ -182,10 +198,10 @@ const Settings = (props) => {
               message={message}
               onClick={handleClickAlert}
             ></ShowSweetAlert>
-          );
+          )
         })
         .catch((error) => {
-          setIsLoading(false);
+          setIsLoading(false)
           setAlert(
             <ShowSweetAlert
               type="danger"
@@ -193,20 +209,20 @@ const Settings = (props) => {
               message={error.response.data.message}
               onClick={handleClickAlert}
             ></ShowSweetAlert>
-          );
-        });
-    } else history.push(SELF_URL.LOGIN);
-  };
+          )
+        })
+    } else history.push(SELF_URL.LOGIN)
+  }
 
   const onFinishFailed = (item) => {
-    const message = `Setting ${item} failed!`;
-    console.log("Failed:", message);
-  };
+    const message = `Setting ${item} failed!`
+    console.log("Failed:", message)
+  }
 
   const handleClickAlert = () => {
-    setAlert(null);
-    setIsLoading(false);
-  };
+    setAlert(null)
+    setIsLoading(false)
+  }
 
   return (
     <div className="layout-content">
@@ -240,8 +256,8 @@ const Settings = (props) => {
               fields={[
                 {
                   name: ["title"],
-                  value: titleSetting ? titleSetting : "",
-                },
+                  value: titleSetting ? titleSetting : ""
+                }
               ]}
             >
               <Card
@@ -258,7 +274,7 @@ const Settings = (props) => {
                     >
                       Save
                     </Button>
-                  </Form.Item>,
+                  </Form.Item>
                 ]}
               >
                 <Form.Item
@@ -267,8 +283,8 @@ const Settings = (props) => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your title!",
-                    },
+                      message: "Please input your title!"
+                    }
                   ]}
                 >
                   <Input placeholder="Title" />
@@ -283,8 +299,8 @@ const Settings = (props) => {
               fields={[
                 {
                   name: ["description"],
-                  value: descriptionSetting ? descriptionSetting : "",
-                },
+                  value: descriptionSetting ? descriptionSetting : ""
+                }
               ]}
             >
               <Card
@@ -301,7 +317,7 @@ const Settings = (props) => {
                     >
                       Save
                     </Button>
-                  </Form.Item>,
+                  </Form.Item>
                 ]}
               >
                 <Form.Item
@@ -310,8 +326,8 @@ const Settings = (props) => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your description!",
-                    },
+                      message: "Please input your description!"
+                    }
                   ]}
                 >
                   <Input placeholder="Description" />
@@ -331,7 +347,7 @@ const Settings = (props) => {
                   onClick={() => onFinish({ footer: footerSetting }, "footer")}
                 >
                   Save
-                </Button>,
+                </Button>
               ]}
             >
               <ReactQuill
@@ -343,6 +359,201 @@ const Settings = (props) => {
                 className="reactBoxSetting"
               />
             </Card>
+          </Card>
+          <br />
+          <Card title="UTest Settings" bordered={false}>
+            <Form
+              name="basic"
+              onFinish={(value) => onFinish(value, "utest_api_domain")}
+              onFinishFailed={() => onFinishFailed("utest_api_domain")}
+              autoComplete="off"
+              fields={[
+                {
+                  name: ["utest_api_domain"],
+                  value: utestApiDomain ? utestApiDomain : ""
+                }
+              ]}
+            >
+              <Card
+                type="inner"
+                bordered={false}
+                className="row-col setting-wrapper react-quill"
+              >
+                <Row>
+                  <Col md={18} lg={18} sm={24} xs={24}>
+                    <Form.Item
+                      label="API DOMAIN"
+                      name="utest_api_domain"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input Utest Api Domain!"
+                        }
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col md={6} lg={6} sm={24} xs={24}>
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="ant-btn-sm ant-btn-setting"
+                      >
+                        Save
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <br />
+                <br />
+              </Card>
+            </Form>
+            <Form
+              name="basic"
+              onFinish={(value) => onFinish(value, "utest_api_platform_domain")}
+              onFinishFailed={() => onFinishFailed("utest_api_platform_domain")}
+              autoComplete="off"
+              fields={[
+                {
+                  name: ["utest_api_platform_domain"],
+                  value: utestPFApiDomain ? utestPFApiDomain : ""
+                }
+              ]}
+            >
+              <Card
+                type="inner"
+                bordered={false}
+                className="row-col setting-wrapper react-quill"
+              >
+                <Row>
+                  <Col md={18} lg={18} sm={24} xs={24}>
+                    <Form.Item
+                      label="PF DOMAIN"
+                      name="utest_api_platform_domain"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input Utest Platform Api Domain!"
+                        }
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col md={6} lg={6} sm={24} xs={24}>
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="ant-btn-sm ant-btn-setting"
+                      >
+                        Save
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <br />
+                <br />
+              </Card>
+            </Form>
+            <Form
+              name="basic"
+              onFinish={(value) => onFinish(value, "utest_api_token")}
+              onFinishFailed={() => onFinishFailed("utest_api_token")}
+              autoComplete="off"
+              fields={[
+                {
+                  name: ["utest_api_token"],
+                  value: utestApiToken ? utestApiToken : ""
+                }
+              ]}
+            >
+              <Card
+                type="inner"
+                bordered={false}
+                className="row-col setting-wrapper react-quill"
+              >
+                <Row>
+                  <Col md={18} lg={18} sm={24} xs={24}>
+                    <Form.Item
+                      label="TOKEN"
+                      name="utest_api_token"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input Utest Api Token!"
+                        }
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col md={6} lg={6} sm={24} xs={24}>
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="ant-btn-sm ant-btn-setting"
+                      >
+                        Save
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <br />
+                <br />
+              </Card>
+            </Form>
+            <Form
+              name="basic"
+              onFinish={(value) => onFinish(value, "utest_tester_id")}
+              onFinishFailed={() => onFinishFailed("utest_tester_id")}
+              autoComplete="off"
+              fields={[
+                {
+                  name: ["utest_tester_id"],
+                  value: utestTesterId ? utestTesterId : ""
+                }
+              ]}
+            >
+              <Card
+                type="inner"
+                bordered={false}
+                className="row-col setting-wrapper react-quill"
+              >
+                <Row>
+                  <Col md={18} lg={18} sm={24} xs={24}>
+                    <Form.Item
+                      label="TESTER ID"
+                      name="utest_tester_id"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input Utest Tester ID!"
+                        }
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col md={6} lg={6} sm={24} xs={24}>
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="ant-btn-sm ant-btn-setting"
+                      >
+                        Save
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <br />
+                <br />
+              </Card>
+            </Form>
           </Card>
         </Col>
         <Col md={12} xs={24} className="boxSetting">
@@ -408,7 +619,7 @@ const Settings = (props) => {
               fields={[
                 {
                   name: ["money_exchange_domain"],
-                  value: moneyExchangeUrlSetting ? moneyExchangeUrlSetting : "",
+                  value: moneyExchangeUrlSetting ? moneyExchangeUrlSetting : ""
                 }
               ]}
             >
@@ -425,8 +636,8 @@ const Settings = (props) => {
                       rules={[
                         {
                           required: true,
-                          message: "Please input money exchange URL!",
-                        },
+                          message: "Please input money exchange URL!"
+                        }
                       ]}
                     >
                       <Input />
@@ -456,7 +667,7 @@ const Settings = (props) => {
               fields={[
                 {
                   name: ["money_exchange_key"],
-                  value: moneyExchangeKeySetting ? moneyExchangeKeySetting : "",
+                  value: moneyExchangeKeySetting ? moneyExchangeKeySetting : ""
                 }
               ]}
             >
@@ -473,8 +684,8 @@ const Settings = (props) => {
                       rules={[
                         {
                           required: true,
-                          message: "Please input money exchange apikey!",
-                        },
+                          message: "Please input money exchange apikey!"
+                        }
                       ]}
                     >
                       <Input />
@@ -500,7 +711,7 @@ const Settings = (props) => {
         </Col>
       </Row>
     </div>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings
