@@ -47,6 +47,13 @@ export const PAYMENT_REMINDER = {
   REST: API_URL + "/api/payment-reminder/",
 }
 
+export const UTEST_API = {
+  GET_PAYMENT: API_URL + "/api/myboard_utest/payments/",
+  GET_PRE_APPROVED: API_URL + "/api/myboard_utest/preapprovePayment/",
+  GET_PROFILE: API_URL + "/api/myboard_utest/profile/",
+  GET_ACTIVITY: API_URL + "/api/myboard_utest/activity/",
+}
+
 export const SELF_URL = {
   LOGIN: "/sign-in",
   DASHBOARD: "/dashboard",
@@ -62,5 +69,6 @@ export const SELF_URL = {
   CATEGORIES: "/categories",
   LABELS: "/labels",
   PROJECTS: "/projects",
-  PAYMENT: "/payment-reminder"
+  PAYMENT: "/payment-reminder",
+  UTEST: "/utest-overview"
 }
