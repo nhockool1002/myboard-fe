@@ -100,7 +100,7 @@ const Photo = (props) => {
   const handleRedirectDetail = (folder) => {
     history.push(
       SELF_URL.PHOTO_DETAIL +
-        `/${folder.folder_key}/${currentBucket.bucket_name}`
+        `/${folder.folder_key}/${currentBucket.bucket_name}?page=1`
     );
   };
 
