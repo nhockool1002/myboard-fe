@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Col, Row, Pagination, Modal } from "antd";
+import { Row, Modal } from "antd";
 import { getUser, getToken } from "utils/common";
 import { S3_API, SELF_URL } from "helpers/url";
 import Loader from "react-loader-spinner";
@@ -12,19 +12,19 @@ import ExamplePhoto from "assets/images/example.png";
 import { SRLWrapper } from "simple-react-lightbox";
 import Masonry from "react-masonry-component";
 import { BackgroundImage } from "react-image-and-background-image-fade";
+import { v4 as uuidv4 } from "uuid";
 
 const PhotoDetail = (props) => {
   const history = useHistory();
+  const params = useParams();
   const [loading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const { folder_key, bucket_name } = useParams();
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [pagination, setPagination] = useState(false);
-  const [rowPerPage, setRowPerPage] = useState(0);
   const [mansoryImage, setMansoryImage] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentItem, setCurrentItem] = useState({});
+  const [listPaginate, setListPaginate] = useState([]);
+
 
   const masonryOptions = {
     transitionDuration: 0,
@@ -32,47 +32,55 @@ const PhotoDetail = (props) => {
 
   const imagesLoadedOptions = { background: ".my-bg-image-el" };
 
+  const renderPaginate = (quantity) => {
+    let arr = [];
+    for (var i = 1; i <= quantity; i++) {
+        arr.push(i.toString())
+    }
+    setListPaginate(arr)
+  }
+
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    let getPage = urlParams.get('page');
+
+    if (getPage === null) {
+      getPage = "1"
+    }
+
     setIsLoading(true);
     const user = getUser();
     if (user !== null) {
       axios
         .get(
           S3_API.GET_IMAGE_BY_FOLDER +
-            `?bucket_name=${bucket_name}&folder_key=${folder_key}&page=${page}`,
+            `?bucket_name=${bucket_name}&folder_key=${folder_key}&page=${getPage ? getPage : "1"}`,
           {
             headers: { Authorization: "Token " + getToken() },
           }
         )
         .then((res) => {
           setIsLoading(false);
-          setTotal(res.data.total);
-          setPagination(true);
-          setRowPerPage(res.data.row_per_page);
           setMansoryImage(res.data.data);
+          renderPaginate(Math.ceil(res.data.total/res.data.row_per_page))
         })
         .catch((error) =>
-          setAlert(
-            <ShowSweetAlert
-              type="danger"
-              title="Error"
-              message={error.response.data.message}
-              onClick={handleClickAlert}
-            ></ShowSweetAlert>
-          )
+          {
+            setAlert(
+              <ShowSweetAlert
+                type="danger"
+                title="Error"
+                message={error.response.data.message}
+                onClick={handleClickAlert}
+              ></ShowSweetAlert>
+            )
+            setIsLoading(false)
+            history.push(SELF_URL.PHOTO);
+          }
         );
     } else history.push(SELF_URL.LOGIN);
     // eslint-disable-next-line
-  }, [page]);
-
-  const handleChangePage = (page_num) => {
-    setIsLoading(true);
-    window.scrollTo(0, 0);
-    setTimeout(() => {
-      setPage(page_num);
-      setIsLoading(false);
-    }, 2000);
-  };
+  }, []);
 
   const handleClickAlert = () => {
     setAlert(null);
@@ -185,7 +193,14 @@ const PhotoDetail = (props) => {
         )}
       </SRLWrapper>
       <Row>
-        <Col span={24}>
+        <div className='pageListImage'>
+          <ul>
+          {listPaginate && listPaginate.length &&  listPaginate.map((item) => (
+            <li key={uuidv4()}><a href={`${SELF_URL.PHOTO_DETAIL}/${params.folder_key}/${params.bucket_name}/?page=${item}`}>{item}</a></li>
+          ))}
+          </ul>
+        </div>
+        {/* <Col span={24}>
           {pagination && (
             <Pagination
               defaultCurrent={1}
@@ -200,7 +215,7 @@ const PhotoDetail = (props) => {
               responsive={true}
             />
           )}
-        </Col>
+        </Col> */}
       </Row>
     </div>
   );

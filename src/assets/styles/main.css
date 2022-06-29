@@ -4008,3 +4008,30 @@ span.typeCondition {
 .text-bold {
   font-weight: bold;
 }
+
+.pageListImage ul {
+  list-style-type: none;
+  width: 100%;
+}
+
+.pageListImage ul li {
+  width: 30px;
+  height: 30px;
+  background-color: #082626;
+  display: inline-block;
+  text-align: center;
+  line-height: 30px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.pageListImage ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: lighter;
+  font-size: 18px;
+}
+
+.pageListImage ul li a:hover {
+  cursor: pointer;
+}
