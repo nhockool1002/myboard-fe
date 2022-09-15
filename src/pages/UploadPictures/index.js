@@ -93,7 +93,7 @@ const UploadPictures = (props) => {
             <ShowSweetAlert
               type="danger"
               title="Error"
-              message={error.response.data.message}
+              message={error.response?.data?.message}
               onClick={handleClickAlert}
             ></ShowSweetAlert>
           )
