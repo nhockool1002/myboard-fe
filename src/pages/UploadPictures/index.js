@@ -212,6 +212,7 @@ const UploadPictures = (props) => {
         handleFindImage(page);
       } else if (info.file.status === "error") {
         message.error(`${info.file.name} file upload failed.`);
+        console.log(info.file, info);
       }
     },
     accept: ".jpg,.jpeg,.png,.mp4,.mov",
