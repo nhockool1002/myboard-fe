@@ -15,6 +15,7 @@ export const S3_API = {
   DELETE_FOLDER: API_URL + "/api/s3-folder/",
   DELETE_BUCKET: API_URL + "/api/s3-bucket/",
   PUBLIC_ACCESS_BUCKET: API_URL + "/api/set-s3-public-access/",
+  UPLOAD_IMAGE_DATA: API_URL + "/api/s3-upload-single-data/",
 }
 
 export const SETTING_API = {
